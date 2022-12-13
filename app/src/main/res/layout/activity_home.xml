@@ -9,9 +9,9 @@
     tools:context=".HomeActivity">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="421dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/welcomeImageView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_gravity="start|fill|fill_horizontal"
         android:layout_weight="1"
         android:background="#F57427"
@@ -19,17 +19,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="641dp"
+        android:layout_height="718dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="40dp">
+        android:paddingStart="30dp"
+        android:paddingLeft="40dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="30dp"
+        android:paddingRight="40dp"
+        android:paddingBottom="20dp">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/loginTextView"
             android:layout_width="150dp"
-            android:layout_height="79dp"
-            android:layout_margin="5dp"
-            android:layout_marginBottom="1dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:text="Login"
             android:textColor="#F57427"
@@ -37,12 +40,13 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/loginInstructionTextView"
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="1dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="Please Sign In To Continue" />
+            android:text="Please sign in to continue"
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/editTextTextEmailAddress"
@@ -79,17 +83,16 @@
             android:textColorLink="#F57427" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/forgotPasswordTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="Forgot Password?"
+            android:text="Forgot password?"
             android:textColorLink="#F57427" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -102,21 +105,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/haveAnAccountTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Don't Hava An Account?" />
+                android:text="Don't have an account?" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/registerTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
