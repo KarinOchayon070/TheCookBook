@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgrounddesign"
-    tools:context=".LoginFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".RegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#F57427"
         android:gravity="fill_horizontal"
         android:orientation="vertical"
         tools:context=".HomeActivity">
@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/welcomeImageViewLoginFragment"
+                android:id="@+id/welcomeImageViewRegisterFragment"
                 android:layout_width="400dp"
                 android:layout_height="400dp"
                 android:layout_gravity="start|fill|fill_horizontal"
@@ -46,29 +46,47 @@
             android:paddingBottom="20dp">
 
             <TextView
-                android:id="@+id/loginTextViewLoginFragment"
-                android:layout_width="150dp"
-                android:layout_height="44dp"
-                android:layout_weight="1"
-                android:text="Login"
+                android:id="@+id/registerTextViewRegisterFragment"
+                android:layout_width="210dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="2"
+                android:text="Register"
                 android:textColor="#F57427"
                 android:textSize="50dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/loginInstructionTextViewLoginFragment"
+                android:id="@+id/registerInstructionTextViewRegisterFragment"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:text="Please sign in to continue"
+                android:text="Please register to continue"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/editTextTextEmailAddressLoginFragment"
+                android:id="@+id/editTextFullNameRegisterFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/textviewdesign"
+                android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+                android:drawablePadding="2dp"
+                android:drawableTint="#F57427"
+                android:ems="10"
+                android:hint="Full Name"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColorHighlight="#F57427"
+                android:textColorLink="#F57427" />
+
+            <EditText
+                android:id="@+id/editTextTextEmailAddressRegisterFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
                 android:drawableLeft="@android:drawable/sym_action_email"
@@ -82,7 +100,7 @@
                 android:textColorLink="#F57427" />
 
             <EditText
-                android:id="@+id/editTextTextPasswordLoginFragment"
+                android:id="@+id/editTextTextPasswordRegisterFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -98,17 +116,25 @@
                 android:textColorHighlight="#F57427"
                 android:textColorLink="#F57427" />
 
-            <TextView
-                android:id="@+id/forgotPasswordTextViewLoginFragment"
+            <EditText
+                android:id="@+id/editTextTextConfirmPasswordRegisterFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:gravity="right"
-                android:text="Forgot password?"
+                android:background="@drawable/textviewdesign"
+                android:drawableLeft="@android:drawable/ic_secure"
+                android:drawablePadding="13dp"
+                android:drawableTint="#F57427"
+                android:ems="10"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHighlight="#F57427"
                 android:textColorLink="#F57427" />
 
             <Button
-                android:id="@+id/loginButtonLoginFragment"
+                android:id="@+id/registerButtonRegisterFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -116,7 +142,7 @@
                 android:background="@drawable/buttondesign"
                 android:fontFamily="sans-serif-medium"
                 android:onClick="funcButtonLogin"
-                android:text="LOGIN" />
+                android:text="Register" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,19 +152,19 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/haveAnAccountTextViewLoginFragment"
+                    android:id="@+id/haveAnAccountTextViewRegisterFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Don't have an account?" />
+                    android:text="Already have an account?" />
 
                 <TextView
-                    android:id="@+id/registerTextViewLoginFragment"
+                    android:id="@+id/loginTextViewRegisterFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Register"
+                    android:text="Login"
                     android:textColor="#F57427"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -146,5 +172,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </FrameLayout>
