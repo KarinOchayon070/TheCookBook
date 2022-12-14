@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084125404115",
+    "project_id": "thecookbook-fcc12",
+    "storage_bucket": "thecookbook-fcc12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084125404115:android:84d864e0eb2e56f0ed2d26",
+        "android_client_info": {
+          "package_name": "com.example.finalprojectandroidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084125404115-63uih50a8lt61l6o6cuho12uarjsh1b7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcyRM3QIB1mc7AbAIbJaATEW0fW2R4KXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084125404115-63uih50a8lt61l6o6cuho12uarjsh1b7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
