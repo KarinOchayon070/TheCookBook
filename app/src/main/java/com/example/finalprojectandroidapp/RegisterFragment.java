@@ -1,6 +1,5 @@
 package com.example.finalprojectandroidapp;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,17 +28,18 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RegisterFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RegisterFragment extends Fragment {
+
+
     Button registerBtn;
-    TextView fullNameRegisterFragment, emailRegisterFragment, passwordRegisterFragment;
+    TextView fullNameRegisterFragment, emailRegisterFragment, passwordRegisterFragment, editTextTextConfirmPasswordRegisterFragment;
     boolean valid = true;
     FirebaseAuth fAuth;
-    FirebaseFirestore fstore;
+    FirebaseFirestore fStore;
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,10 +71,6 @@ public class RegisterFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -88,28 +84,43 @@ public class RegisterFragment extends Fragment {
     }
 
 
+
+
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         TextView loginTextViewRegisterFragment = view.findViewById(R.id.loginTextViewRegisterFragment);
 
 
         fAuth = FirebaseAuth.getInstance();
-        fstore = FirebaseFirestore.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         registerBtn = view.findViewById(R.id.registerButtonRegisterFragment);
         fullNameRegisterFragment = view.findViewById(R.id.editTextFullNameRegisterFragment);
         emailRegisterFragment = view.findViewById(R.id.editTextTextEmailAddressRegisterFragment);
         passwordRegisterFragment = view.findViewById(R.id.editTextTextPasswordRegisterFragment);
+        editTextTextConfirmPasswordRegisterFragment = view.findViewById(R.id.editTextTextConfirmPasswordRegisterFragment);
 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 checkField((EditText) fullNameRegisterFragment);
                 checkField((EditText) emailRegisterFragment);
                 checkField((EditText) passwordRegisterFragment);
+                checkField((EditText) editTextTextConfirmPasswordRegisterFragment);
+
+                if((passwordRegisterFragment.getText() != editTextTextConfirmPasswordRegisterFragment.getText())
+                        &&
+                        ((passwordRegisterFragment.getText().toString() != null) && editTextTextConfirmPasswordRegisterFragment.getText().toString() != null)){
+                    Toast.makeText(view.getContext(), "Different passwords have been entered", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (valid) {
                     fAuth.createUserWithEmailAndPassword(emailRegisterFragment.getText().toString(), passwordRegisterFragment.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -117,7 +128,7 @@ public class RegisterFragment extends Fragment {
                         public void onSuccess(AuthResult authResult) {
                             FirebaseUser user = fAuth.getCurrentUser();
                             Toast.makeText(view.getContext(), "Account Created Successfully", Toast.LENGTH_SHORT).show();
-                            DocumentReference df = fstore.collection("Users").document(user.getUid());
+                            DocumentReference df = fStore.collection("Users").document(user.getUid());
                             Map<String, Object> userInfo = new HashMap<>();
                             userInfo.put("FullName", fullNameRegisterFragment.getText().toString());
                             userInfo.put("UserEmail", emailRegisterFragment.getText().toString());
@@ -125,7 +136,7 @@ public class RegisterFragment extends Fragment {
                             userInfo.put("isUser", "1");
                             df.set(userInfo);
                             //                    finish();
-                            Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
+                            Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_userFragment);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -137,8 +148,7 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-
-
+        //Go back to login fragment.
         loginTextViewRegisterFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,9 +159,10 @@ public class RegisterFragment extends Fragment {
     }
 
 
+    // Check if one of the field is empty.
     public boolean checkField(EditText textField){
         if(textField.getText().toString().isEmpty()){
-            textField.setError("Error");
+            textField.setError("Please fill in all the details");
             valid = false;
         }
         else{
