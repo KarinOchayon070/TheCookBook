@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="fill_horizontal"
     android:orientation="vertical"
-    tools:context=".HomeActivity">
+    tools:context=".activities.HomeActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"

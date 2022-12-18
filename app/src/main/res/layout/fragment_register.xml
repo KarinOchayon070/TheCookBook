@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RegisterFragment">
+    tools:context=".fragments.RegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:background="#F57427"
         android:gravity="fill_horizontal"
         android:orientation="vertical"
-        tools:context=".HomeActivity">
+        tools:context=".activities.HomeActivity">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.finalprojectandroidapp;
+package com.example.finalprojectandroidapp.fragments;
 
 import android.os.Bundle;
 
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.finalprojectandroidapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
