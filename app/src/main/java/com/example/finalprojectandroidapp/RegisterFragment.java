@@ -19,6 +19,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -28,127 +33,88 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class RegisterFragment extends Fragment {
 
-
+    //Initial
     Button registerBtn;
-    TextView fullNameRegisterFragment, emailRegisterFragment, passwordRegisterFragment, editTextTextConfirmPasswordRegisterFragment;
-    boolean valid = true;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-
-
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegisterFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance(String param1, String param2) {
-        RegisterFragment fragment = new RegisterFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-
-        super.onCreate(savedInstanceState);
-
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-    }
-
-
-
-
+    TextView fullNameRegisterFragment, emailRegisterFragment, editTextTexIDRegisterFragment,
+            passwordRegisterFragment, editTextTextConfirmPasswordRegisterFragment, loginTextViewRegisterFragment;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //The current view is the register fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-        TextView loginTextViewRegisterFragment = view.findViewById(R.id.loginTextViewRegisterFragment);
+
+        //Create object of DatabaseReference class to access firebase's realtime database
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
 
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-
-        registerBtn = view.findViewById(R.id.registerButtonRegisterFragment);
+        //Identify the relevant elements by id
         fullNameRegisterFragment = view.findViewById(R.id.editTextFullNameRegisterFragment);
         emailRegisterFragment = view.findViewById(R.id.editTextTextEmailAddressRegisterFragment);
+        editTextTexIDRegisterFragment = view.findViewById(R.id.editTextTexIDRegisterFragment);
         passwordRegisterFragment = view.findViewById(R.id.editTextTextPasswordRegisterFragment);
         editTextTextConfirmPasswordRegisterFragment = view.findViewById(R.id.editTextTextConfirmPasswordRegisterFragment);
+        registerBtn = view.findViewById(R.id.registerButtonRegisterFragment);
+        loginTextViewRegisterFragment = view.findViewById(R.id.loginTextViewRegisterFragment);
 
 
+        //When register button is pressed...
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                //Get data from editText into string vars
+                final String fullName = fullNameRegisterFragment.getText().toString();
+                final String email = emailRegisterFragment.getText().toString();
+                final String id = editTextTexIDRegisterFragment.getText().toString();
+                final String password = passwordRegisterFragment.getText().toString();
+                final String confirmPassword = editTextTextConfirmPasswordRegisterFragment.getText().toString();
 
-                checkField((EditText) fullNameRegisterFragment);
-                checkField((EditText) emailRegisterFragment);
-                checkField((EditText) passwordRegisterFragment);
-                checkField((EditText) editTextTextConfirmPasswordRegisterFragment);
-
-                if((passwordRegisterFragment.getText() != editTextTextConfirmPasswordRegisterFragment.getText())
-                        &&
-                        ((passwordRegisterFragment.getText().toString() != null) && editTextTextConfirmPasswordRegisterFragment.getText().toString() != null)){
-                    Toast.makeText(view.getContext(), "Different passwords have been entered", Toast.LENGTH_SHORT).show();
-                    return;
+                //Check if the user fill all the fields before sending data to firebase
+                if (fullName.isEmpty() || email.isEmpty() || id.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                    Toast.makeText(view.getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }
 
-                if (valid) {
-                    fAuth.createUserWithEmailAndPassword(emailRegisterFragment.getText().toString(), passwordRegisterFragment.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                //Check if the passwords are matching with each other
+                else if (!passwordRegisterFragment.getText().toString().equals(editTextTextConfirmPasswordRegisterFragment.getText().toString())) {
+                    Toast.makeText(view.getContext(), "Different passwords have been entered", Toast.LENGTH_SHORT).show();
+                } else {
+                    databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onSuccess(AuthResult authResult) {
-                            FirebaseUser user = fAuth.getCurrentUser();
-                            Toast.makeText(view.getContext(), "Account Created Successfully", Toast.LENGTH_SHORT).show();
-                            DocumentReference df = fStore.collection("Users").document(user.getUid());
-                            Map<String, Object> userInfo = new HashMap<>();
-                            userInfo.put("FullName", fullNameRegisterFragment.getText().toString());
-                            userInfo.put("UserEmail", emailRegisterFragment.getText().toString());
-                            userInfo.put("Password", passwordRegisterFragment.getText().toString());
-                            userInfo.put("isUser", "1");
-                            df.set(userInfo);
-                            //                    finish();
-                            Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_userFragment);
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            //Check if ID is not registered before
+                            if (snapshot.hasChild(id)) {
+                                Toast.makeText(view.getContext(), "ID is already registered", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                //Sending data to firebase realtime database
+                                //I am using the id of each user as unique identity of every user
+                                //All the other details (full name, email, password, etc..) comes under the user's id
+                                databaseReference.child("Users").child(id).child("fullName").setValue(fullName);
+                                databaseReference.child("Users").child(id).child("email").setValue(email);
+                                databaseReference.child("Users").child(id).child("password").setValue(password);
+                                //In this way, I will know how to distinguish between two types of users - user/administrator
+                                //Since there are not many administrators in the system (only me) - I manually added the option to
+                                // "isAdmin" in my database
+                                databaseReference.child("Users").child(id).child("isUser").setValue("1");
+                                //Show the user a success message
+                                Toast.makeText(view.getContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
+                                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_userFragment);
+                            }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onCancelled(@NonNull DatabaseError error) {
                             Toast.makeText(view.getContext(), "Failed To Create An Account", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
         });
-
-        //Go back to login fragment.
+        //When login option is pressed... at the bottom of the screen there is a line that says if you have an existing account, click here
+        //Clicking "login" will take you back to login fragment
         loginTextViewRegisterFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,17 +123,22 @@ public class RegisterFragment extends Fragment {
         });
         return view;
     }
+}
+
+
+
+
 
 
     // Check if one of the field is empty.
-    public boolean checkField(EditText textField){
-        if(textField.getText().toString().isEmpty()){
-            textField.setError("Please fill in all the details");
-            valid = false;
-        }
-        else{
-            valid = true;
-        }
-        return valid;
-    }
-}
+//    public boolean checkField(EditText textField){
+//        if(textField.getText().toString().isEmpty()){
+//            textField.setError("Please fill in all the details");
+//            //Toast.makeText(getView().getContext(), )
+//            valid = false;
+//        }
+//        else{
+//            valid = true;
+//        }
+//        return valid;
+//    }

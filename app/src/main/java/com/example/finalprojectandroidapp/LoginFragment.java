@@ -6,161 +6,96 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.zip.Inflater;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginFragment extends Fragment {
 
+    //Initial
     Button loginBtn;
-    TextView emailLoginFragment, passwordLoginFragment;
-    boolean valid = true;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-
-
-
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-    }
-
-
-
-
-
+    TextView idLoginFragment, passwordLoginFragment, registerTextViewLoginFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //The current view is the login fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        TextView registerTextViewLoginFragment = view.findViewById(R.id.registerTextViewLoginFragment);
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
+        //Create object of DatabaseReference class to access firebase's realtime database
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
 
-        loginBtn = view.findViewById(R.id.loginButtonLoginFragment);
-        emailLoginFragment = view.findViewById(R.id.editTextTextEmailAddressLoginFragment);
+        //Identify the relevant elements by id
+        idLoginFragment = view.findViewById(R.id.editTextTextIDLoginFragment);
         passwordLoginFragment = view.findViewById(R.id.editTextTextPasswordLoginFragment);
+        loginBtn = view.findViewById(R.id.loginButtonLoginFragment);
+        registerTextViewLoginFragment = view.findViewById(R.id.registerTextViewLoginFragment);
 
 
-
+        //When login button is pressed...
         loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkField((EditText) emailLoginFragment);
-                checkField((EditText) passwordLoginFragment);
+                                        @Override
+                                        public void onClick(View view) {
 
-                if(valid){
-                    fAuth.signInWithEmailAndPassword(emailLoginFragment.getText().toString(), passwordLoginFragment.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-//                            checkUserAccessLevel(authResult.getUser().getUid());
-                            String uid = authResult.getUser().getUid();
-                            DocumentReference df = fStore.collection("Users").document(uid);
-                            df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
+                                            //Get data from editText into string vars
+                                            final String id = idLoginFragment.getText().toString();
+                                            final String password = passwordLoginFragment.getText().toString();
 
-                                    if(documentSnapshot.getString("isAdmin") != null){
-                                        //User is admin
-                                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminFragment);
-                                    }
-                                    if(documentSnapshot.getString("isUser") != null){
-                                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_userFragment);
-                                    }
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
+                                            //Check if the user fill all the fields before sending data to firebase
+                                            if (id.isEmpty() || password.isEmpty()) {
+                                                Toast.makeText(view.getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        //Check if email is exists in firebase database
+                                                        if (snapshot.hasChild(id)) {
+                                                            //Email is exist in firebase database
+                                                            //Now get the password of the user from firebase data and match it with user entered password
+                                                            final String getPassword = snapshot.child(id).child("password").getValue(String.class);
+                                                            if (getPassword.equals(password)) {
+                                                                Toast.makeText(view.getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+                                                                //If the user is admin - go to admin fragment
+                                                                if(snapshot.child(id).child("isAdmin").getValue() != null){
+                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminFragment);
+                                                                }
+                                                                //If the user is regular user - go to user fragment
+                                                                else {
+                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_userFragment);
+                                                                }
+                                                            }
+                                                            else{
+                                                                Toast.makeText(view.getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        } else {
+                                                            Toast.makeText(view.getContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                //Go to register fragment.
+                registerTextViewLoginFragment.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(view.getContext(), "Loggin Failed", Toast.LENGTH_SHORT).show();
+                        public void onClick(View view) {
+                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment);
                         }
-                    });
+                });
+                return view;
                 }
-            }
-        });
-
-        //Go to register fragment.
-        registerTextViewLoginFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment);
-            }
-        });
-        return view;
-    }
-
-
-    // Check if one of the field is empty.
-    public boolean checkField(EditText textField){
-        if(textField.getText().toString().isEmpty()){
-            textField.setError("Please fill in all the details");
-            valid = false;
         }
-        else{
-            valid = true;
-        }
-        return valid;
-    }
-
-//    @Override
-//    protected void onStart(){
-//        super.onStart();
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-//
-//        }
-//    }
-}

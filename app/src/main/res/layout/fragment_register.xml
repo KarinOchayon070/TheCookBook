@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="296dp"
             android:layout_weight="1"
             android:background="#F57427"
             android:orientation="vertical">
@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/welcomeImageViewRegisterFragment"
                 android:layout_width="400dp"
-                android:layout_height="400dp"
+                android:layout_height="179dp"
                 android:layout_gravity="start|fill|fill_horizontal"
                 android:layout_weight="1"
                 android:background="#F57427"
@@ -47,18 +47,18 @@
 
             <TextView
                 android:id="@+id/registerTextViewRegisterFragment"
-                android:layout_width="210dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="2"
                 android:text="Register"
                 android:textColor="#F57427"
-                android:textSize="50dp"
+                android:textSize="45dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/registerInstructionTextViewRegisterFragment"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_weight="1"
@@ -72,12 +72,11 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
-                android:drawableLeft="@android:drawable/ic_menu_my_calendar"
                 android:drawablePadding="2dp"
                 android:drawableTint="#F57427"
                 android:ems="10"
                 android:hint="Full Name"
-                android:inputType="textEmailAddress"
+                android:inputType="none"
                 android:padding="10dp"
                 android:textColorHighlight="#F57427"
                 android:textColorLink="#F57427" />
@@ -95,6 +94,22 @@
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColorHighlight="#F57427"
+                android:textColorLink="#F57427" />
+
+            <EditText
+                android:id="@+id/editTextTexIDRegisterFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/textviewdesign"
+                android:drawablePadding="2dp"
+                android:drawableTint="#F57427"
+                android:ems="10"
+                android:hint="ID"
+                android:inputType="numberDecimal"
                 android:padding="10dp"
                 android:textColorHighlight="#F57427"
                 android:textColorLink="#F57427" />
