@@ -125,21 +125,3 @@ public class RegisterFragment extends Fragment {
         return view;
     }
 }
-
-
-
-
-
-
-    // Check if one of the field is empty.
-//    public boolean checkField(EditText textField){
-//        if(textField.getText().toString().isEmpty()){
-//            textField.setError("Please fill in all the details");
-//            //Toast.makeText(getView().getContext(), )
-//            valid = false;
-//        }
-//        else{
-//            valid = true;
-//        }
-//        return valid;
-//    }
