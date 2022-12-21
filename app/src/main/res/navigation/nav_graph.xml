@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_loginFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userPersonalRecipes"
+            app:destination="@id/userPersonalRecipes" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -42,4 +45,9 @@
         android:name="com.example.finalprojectandroidapp.fragments.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/userPersonalRecipes"
+        android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipes"
+        android:label="fragment_user_personal_recipes"
+        tools:layout="@layout/fragment_user_personal_recipes" />
 </navigation>
