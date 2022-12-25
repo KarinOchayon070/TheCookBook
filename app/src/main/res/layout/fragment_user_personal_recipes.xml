@@ -18,14 +18,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editTextUserId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Please enter id"
-                android:inputType="numberDecimal" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,6 +85,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Show Uploads" />
+
+            <TextView
+                android:id="@+id/textViewUserID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF" />
+
         </LinearLayout>
 
     </LinearLayout>

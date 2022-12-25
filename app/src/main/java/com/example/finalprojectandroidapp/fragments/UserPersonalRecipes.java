@@ -2,13 +2,23 @@ package com.example.finalprojectandroidapp.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.finalprojectandroidapp.R;
 import com.example.finalprojectandroidapp.UploadRecipeImage;
+import com.example.finalprojectandroidapp.activities.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,15 +51,15 @@ import com.squareup.picasso.Picasso;
 import java.util.Locale;
 
 
-public class UserPersonalRecipes<uid> extends Fragment {
+public class UserPersonalRecipes extends Fragment {
 
     //I will use this later to identify the image request
     private static final int PICK_IMAGE_REQUEST = 1;
 
     //Initial the var from the layout
-    EditText editTextFileName, editTextUserId;
+    EditText editTextFileName;
     Button chooseImage, uploadImage;
-    TextView textViewShowUpload;
+    TextView textViewShowUpload, textViewUserID;
     ImageView imageRecipe;
     ProgressBar progressBar;
 
@@ -59,20 +70,22 @@ public class UserPersonalRecipes<uid> extends Fragment {
     private StorageReference mStorageRef;    //This one is for the storage database
     private DatabaseReference mDatabaseRef;  //This one is for the real time database
 
-
-
-
     private StorageTask mUploadTask;
+
+//    ActivityResultLauncher<Intent> activityResultLauncher;
+
+    String url = "";
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //The current view is the fragment where the user upload recipes images.
+        //The current view is the fragment where the user upload recipes images
         View view = inflater.inflate(R.layout.fragment_user_personal_recipes, container, false);
 
         //Identify the relevant elements by id
-        editTextUserId = view.findViewById(R.id.editTextUserId);
+        textViewUserID = view.findViewById(R.id.textViewUserID);
         editTextFileName = view.findViewById(R.id.editTextFileName);
         chooseImage = view.findViewById(R.id.chooseImage);
         uploadImage = view.findViewById(R.id.uploadImage);
@@ -85,7 +98,20 @@ public class UserPersonalRecipes<uid> extends Fragment {
         mStorageRef = FirebaseStorage.getInstance().getReference("Recipes Images");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Recipes Images");
 
-//        String id = editTextUserId.getText().toString();
+
+
+//        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+//            @Override
+//            public void onActivityResult(ActivityResult result) {
+//                if(result.getResultCode() == RESULT_OK && result.getData() != null){
+//                    Bundle bundle = result.getData().getExtras();
+//                    Bitmap bitmap = (Bitmap) bundle.get("data");
+//                    imageRecipe.setImageBitmap(bitmap);
+//                }
+//            }
+//        });
+
+
 
         //When the user will press the "choose image"...
         chooseImage.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +137,8 @@ public class UserPersonalRecipes<uid> extends Fragment {
                         //The unique name of the image is the time in milliseconds (because it changing so fast so it's unique
                         //It will look like this - Recipes Images/5989555959.png
                         StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+                        Log.d("TagTest", String.valueOf(fileReference.getDownloadUrl()));
+//                        url = fileReference.getStorageReferenceUri().getHttpUri().toString();
                         //Here I passed the image I want to add to the database
                         mUploadTask = fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     //When the image is upload successfuly
@@ -127,19 +155,30 @@ public class UserPersonalRecipes<uid> extends Fragment {
                                             }
                                         }, 500);
                                         //When the image is upload successfuly I want to let the user know
+                                        textViewUserID.setText(getArguments().getString("IDUser"));
                                         Toast.makeText(view.getContext(), "Upload Successful", Toast.LENGTH_LONG).show();
                                         //Create instance of the "UploadRecipeImage" class and pass it the name (that the user entered and the image url)
-                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextUserId.getText().toString(), editTextFileName.getText().toString().trim(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+//                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(textViewUserID.getText().toString(), editTextFileName.getText().toString().trim(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+//                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextFileName.getText().toString().trim(), mStorageRef.getDownloadUrl().toString());
                                         //Create a new entry to the database with an unique id
-                                        String uploadId = mDatabaseRef.push().getKey();
-                                        mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
+
+                                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                // Update the url variable with the actual URL of the uploaded image
+                                                url = uri.toString();
+                                                // Display the URL in the text view
+                                                UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextFileName.getText().toString().trim(), url);
+                                                String uploadId = mDatabaseRef.push().getKey();
+                                                mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
+                                            }
+                                        });
 
 
-                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
-                                        databaseReference.child("Users").child(editTextUserId.getText().toString()).child(uploadId).setValue(uploadRecipeImage);
-//                                        databaseReference.child("Users").child(id).child("isUser").setValue("1");
-//
-                                        //String uid = user.child("Users").child("207797005").push(uploadRecipeImage);
+
+                                        //This two lines add to the "Users" collection in real time database the image each user uploaded acorrding to his id
+//                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
+//                                        databaseReference.child("Users").child(textViewUserID.getText().toString()).child(uploadId).setValue(uploadRecipeImage);
                                     }
                                 //When the image is not upload successfuly
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -170,7 +209,7 @@ public class UserPersonalRecipes<uid> extends Fragment {
         textViewShowUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Navigation.findNavController(view).navigate(R.id.action_userPersonalRecipes_to_userUploadRecipesFragment);
             }
         });
         return view;
@@ -189,8 +228,11 @@ public class UserPersonalRecipes<uid> extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
+//        activityResultLauncher.launch(intent);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
+
+
 
     //This method will be called when the user picked an image
     @Override
@@ -199,6 +241,10 @@ public class UserPersonalRecipes<uid> extends Fragment {
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             imageUri = data.getData();
             imageRecipe.setImageURI(imageUri);
+            Log.d("TAG!!!!!!!!",data.getData().toString());
+
         }
     }
+
+
 }

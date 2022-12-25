@@ -49,5 +49,14 @@
         android:id="@+id/userPersonalRecipes"
         android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipes"
         android:label="fragment_user_personal_recipes"
-        tools:layout="@layout/fragment_user_personal_recipes" />
+        tools:layout="@layout/fragment_user_personal_recipes" >
+        <action
+            android:id="@+id/action_userPersonalRecipes_to_userUploadRecipesFragment"
+            app:destination="@id/userUploadRecipesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userUploadRecipesFragment"
+        android:name="com.example.finalprojectandroidapp.fragments.UserUploadRecipesFragment"
+        android:label="fragment_user_upload_recipes"
+        tools:layout="@layout/fragment_user_upload_recipes" />
 </navigation>

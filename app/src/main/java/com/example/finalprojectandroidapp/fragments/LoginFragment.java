@@ -26,6 +26,25 @@ public class LoginFragment extends Fragment {
     Button loginBtn;
     TextView idLoginFragment, passwordLoginFragment, registerTextViewLoginFragment;
 
+    private String mParam;
+    private static final String ARG_PARAM = "param1";
+
+
+    public static LoginFragment newInstance(String userId) {
+        LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM,userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam = getArguments().getString(ARG_PARAM);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -64,6 +83,8 @@ public class LoginFragment extends Fragment {
                                                             //Now get the password of the user from firebase data and match it with user entered password
                                                             final String getPassword = snapshot.child(id).child("password").getValue(String.class);
                                                             if (getPassword.equals(password)) {
+                                                                Bundle bundle = new Bundle();
+                                                                bundle.putString("IDUser", id);
                                                                 Toast.makeText(view.getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
                                                                 //If the user is admin - go to admin fragment
                                                                 if(snapshot.child(id).child("isAdmin").getValue() != null){
@@ -71,7 +92,7 @@ public class LoginFragment extends Fragment {
                                                                 }
                                                                 //If the user is regular user - go to user fragment
                                                                 else {
-                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_userPersonalRecipes);
+                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_userPersonalRecipes, bundle);
                                                                 }
                                                             }
                                                             else{
@@ -81,7 +102,6 @@ public class LoginFragment extends Fragment {
                                                             Toast.makeText(view.getContext(), "Login failed", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
-
                                                     @Override
                                                     public void onCancelled(@NonNull DatabaseError error) {
 
