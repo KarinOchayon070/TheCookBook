@@ -2,4 +2,18 @@
     <string name="app_name">finalProjectAndroidApp</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="api_key">37bc80126a904c6bbcb7465debec1a83</string>
+    <string-array name="tags">
+        <item>main course</item>
+        <item>side dish</item>
+        <item>dessert</item>
+        <item>appetizer</item>
+        <item>bread</item>
+        <item>breakfast</item>
+        <item>soup</item>
+        <item>marinade</item>
+        <item>fingerfood</item>
+        <item>snack</item>
+        <item>drink</item>
+
+    </string-array>
 </resources>

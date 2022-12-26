@@ -5,6 +5,9 @@ import android.content.Context;
 import com.example.finalprojectandroidapp.listeners.RecipeResponseListener;
 import com.example.finalprojectandroidapp.models.RecipesApiResponse;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,13 +27,13 @@ public class RequestManagerApi{
         this.context = context;
     }
 
-    public void getRecipes(RecipeResponseListener recipeResponseListener){
+    public void getRecipes(RecipeResponseListener recipeResponseListener, List<String>tags){
         //Create an instance of the CallRecipesFromApi
         CallRecipesFromApi callRecipesFromApi = retrofit.create(CallRecipesFromApi.class);
         //Create a call object for the RecipesApiResponse
         //I passed the key from the api (I saved it in "strings.xml" under the name "api_key" and the number 100
         //That represent that I want my app to show 100 recipes from the api I used
-        Call<RecipesApiResponse> call = callRecipesFromApi.callRandomRecipe(context.getString(R.string.api_key), "100");
+        Call<RecipesApiResponse> call = callRecipesFromApi.callRandomRecipe(context.getString(R.string.api_key), "100", tags);
         call.enqueue(new Callback<RecipesApiResponse>() {
             @Override
             public void onResponse(Call<RecipesApiResponse> call, Response<RecipesApiResponse> response) {
@@ -52,6 +55,6 @@ public class RequestManagerApi{
         //The parameters I passed is the parameter from  the api I used
         //This call method is a get method (according the api)
         @GET("recipes/random")
-        Call<RecipesApiResponse> callRandomRecipe(@Query("apiKey") String apiKey, @Query("number") String number);
+        Call<RecipesApiResponse> callRandomRecipe(@Query("apiKey") String apiKey, @Query("number") String number, @Query("tags") List<String> tags);
     }
 }
