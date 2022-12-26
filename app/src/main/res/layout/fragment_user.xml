@@ -13,16 +13,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/the_cook_book" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="251dp"
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="209dp"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/the_cook_book" />
+                android:backgroundTint="#F57427"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search here"
+                android:searchIcon="@drawable/ic_search_"></SearchView>
 
             <Spinner
                 android:id="@+id/spinner_tags"
@@ -31,6 +41,7 @@
                 android:backgroundTint="#F57427"
                 android:entries="@array/tags"
                 android:gravity="center" />
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -38,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp" />
+
     </LinearLayout>
 
 </FrameLayout>

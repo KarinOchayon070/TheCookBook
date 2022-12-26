@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class UserFragment extends Fragment {
     LinearLayoutManager layoutManager;
     Spinner spinner;
     List<String> tags = new ArrayList<>();
+    SearchView searchView;
 
 
     public UserFragment() {
@@ -50,6 +52,7 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setTitle("Loading Recipes");
+
 
         //Create an instance of "requestManagerApi"
         requestManagerApi = new RequestManagerApi(view.getContext());
@@ -86,6 +89,8 @@ public class UserFragment extends Fragment {
             }
         };
 
+
+
         //This lines take care of the spinner.
         //I created two layout files (spinner_text, spinner_inner_text) that styles how to spinner looks.
         spinner = view.findViewById(R.id.spinner_tags);
@@ -93,6 +98,25 @@ public class UserFragment extends Fragment {
         arrayAdapter.setDropDownViewResource(R.layout.spinner_inner_text);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(spinnerSelectedListener);
+
+
+        //When the user search for specific recipe
+        searchView = view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                tags.clear();
+                tags.add(s);
+                requestManagerApi.getRecipes(recipeResponseListener, tags);
+                progressDialog.show();
+                return true;
+            }
+            //I didn't change anything here
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
 
 //        requestManagerApi.getRecipes(recipeResponseListener);
 //        progressDialog.show();

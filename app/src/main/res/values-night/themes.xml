@@ -10,6 +10,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:editTextColor">#F57427</item>
+        <item name="android:textColorHint">#F57427</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
