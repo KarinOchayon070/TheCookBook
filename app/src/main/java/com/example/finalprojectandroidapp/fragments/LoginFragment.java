@@ -92,7 +92,7 @@ public class LoginFragment extends Fragment {
                                                                 }
                                                                 //If the user is regular user - go to user fragment
                                                                 else {
-                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_userFragment, bundle);
+                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_selectWhichScreen, bundle);
                                                                 }
                                                             }
                                                             else{

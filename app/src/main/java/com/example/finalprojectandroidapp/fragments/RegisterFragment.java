@@ -103,7 +103,7 @@ public class RegisterFragment extends Fragment {
                                 databaseReference.child("Users").child(id).child("isUser").setValue("1");
                                 //Show the user a success message
                                 Toast.makeText(view.getContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
-                                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_userFragment);
+                                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_selectWhichScreen);
                             }
                         }
                         @Override
