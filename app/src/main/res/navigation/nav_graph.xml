@@ -39,12 +39,16 @@
         tools:layout="@layout/fragment_admin" />
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.finalprojectandroidapp.fragments.UserFragment"
+        android:name="com.example.finalprojectandroidapp.fragments.AppOriginRecipesFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_appOriginRecipesDetailsFragment"
+            app:destination="@id/appOriginRecipesDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userPersonalRecipes"
-        android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipes"
+        android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipesFragment"
         android:label="fragment_user_personal_recipes"
         tools:layout="@layout/fragment_user_personal_recipes" >
         <action
@@ -58,7 +62,7 @@
         tools:layout="@layout/fragment_user_upload_recipes" />
     <fragment
         android:id="@+id/selectWhichScreen"
-        android:name="com.example.finalprojectandroidapp.fragments.SelectWhichScreen"
+        android:name="com.example.finalprojectandroidapp.fragments.SelectWhichScreenFragment"
         android:label="fragment_select_which_screen"
         tools:layout="@layout/fragment_select_which_screen" >
         <action
@@ -68,4 +72,9 @@
             android:id="@+id/action_selectWhichScreen_to_userPersonalRecipes"
             app:destination="@id/userPersonalRecipes" />
     </fragment>
+    <fragment
+        android:id="@+id/appOriginRecipesDetailsFragment"
+        android:name="com.example.finalprojectandroidapp.fragments.AppOriginRecipesDetailsFragment"
+        android:label="fragment_app_origin_recipes_details"
+        tools:layout="@layout/fragment_app_origin_recipes_details" />
 </navigation>

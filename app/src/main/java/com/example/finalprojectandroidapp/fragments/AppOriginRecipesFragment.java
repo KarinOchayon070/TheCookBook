@@ -3,7 +3,7 @@ package com.example.finalprojectandroidapp.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,17 +18,15 @@ import android.widget.Toast;
 import com.example.finalprojectandroidapp.R;
 import com.example.finalprojectandroidapp.RequestManagerApi;
 import com.example.finalprojectandroidapp.adapters.RecipesAdapter;
-import com.example.finalprojectandroidapp.listeners.RecipeResponseListener;
-import com.example.finalprojectandroidapp.models.Recipe;
+import com.example.finalprojectandroidapp.listeners.AppOriginRecipesClickListener;
+import com.example.finalprojectandroidapp.listeners.AppOriginRecipesResponseListener;
 import com.example.finalprojectandroidapp.models.RecipesApiResponse;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import org.checkerframework.checker.units.qual.C;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserFragment extends Fragment {
+public class AppOriginRecipesFragment extends Fragment {
 
     ProgressDialog progressDialog;
     RequestManagerApi requestManagerApi;
@@ -39,8 +37,21 @@ public class UserFragment extends Fragment {
     List<String> tags = new ArrayList<>();
     SearchView searchView;
 
+    private String mParam;
+    private static final String ARG_PARAM = "param1";
 
-    public UserFragment() {
+
+    public static LoginFragment newInstance(String recipeID) {
+        LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM,recipeID);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+
+    public AppOriginRecipesFragment() {
         // Required empty public constructor
     }
 
@@ -53,19 +64,33 @@ public class UserFragment extends Fragment {
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setTitle("Loading Recipes");
 
+        //Create "appOriginRecipesClickListener" object so I can put it the adapter
+        //Each recipe is identify according to it's id (in the api) - so when the user will click one of the
+        //recipes - it will take him to new fragment
+        final AppOriginRecipesClickListener appOriginRecipesClickListener = new AppOriginRecipesClickListener() {
+            @Override
+            public void onAppOriginRecipeClicked(String id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("recipeID", id);
+                Navigation.findNavController(view).navigate(R.id.action_userFragment_to_appOriginRecipesDetailsFragment, bundle);
+            }
+        };
 
         //Create an instance of "requestManagerApi"
         requestManagerApi = new RequestManagerApi(view.getContext());
 
-        RecipeResponseListener recipeResponseListener = new RecipeResponseListener() {
+        AppOriginRecipesResponseListener recipeResponseListener = new AppOriginRecipesResponseListener() {
             @Override
             public void didFetch(RecipesApiResponse recipesApiResponse, String msg) {
+
+                //
                 recycleView = (RecyclerView)view.findViewById(R.id.recyclerViewUserFragment);
                 recycleView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(getContext()); // new GridLayoutManager
                 recycleView.setLayoutManager(layoutManager);
-                recipesAdapter = new RecipesAdapter(view.getContext(), recipesApiResponse.recipes);
+                recipesAdapter = new RecipesAdapter(view.getContext(), recipesApiResponse.recipes, appOriginRecipesClickListener);
                 recycleView.setAdapter(recipesAdapter);
+
             }
             @Override
             public void didError(String msg) {
@@ -88,7 +113,6 @@ public class UserFragment extends Fragment {
 
             }
         };
-
 
 
         //This lines take care of the spinner.
@@ -120,6 +144,8 @@ public class UserFragment extends Fragment {
 
 //        requestManagerApi.getRecipes(recipeResponseListener);
 //        progressDialog.show();
+
+
         return view;
     }
 }

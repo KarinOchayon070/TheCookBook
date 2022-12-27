@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.finalprojectandroidapp.R;
+import com.example.finalprojectandroidapp.listeners.AppOriginRecipesClickListener;
 import com.example.finalprojectandroidapp.models.Recipe;
 import com.squareup.picasso.Picasso;
 import java.util.List;
@@ -18,10 +19,13 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder>{
 
     Context context;
     List<Recipe> recipesList;
+    AppOriginRecipesClickListener appOriginRecipesClickListener;
 
-    public RecipesAdapter(Context context, List<Recipe> recipesList){
+    public RecipesAdapter(Context context, List<Recipe> recipesList, AppOriginRecipesClickListener appOriginRecipesClickListener){
         this.context = context;
         this.recipesList = recipesList;
+        //This is the listener of when the user click on one of the app recipe
+        this.appOriginRecipesClickListener = appOriginRecipesClickListener;
     }
 
     @NonNull
@@ -33,12 +37,22 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+
         holder.recipeNameTitleUserFragment.setText(recipesList.get(position).title);
         //Now the title will have horizontal scrolling effect
         holder.recipeNameTitleUserFragment.setSelected(true);
         holder.textViewTimeInMinUserFragment.setText(recipesList.get(position).readyInMinutes + " Minutes");
         holder.textViewNumOfServingUserFragment.setText(recipesList.get(position).servings + " Servings");
         Picasso.get().load(recipesList.get(position).image).into(holder.imageviewRecipeUserFragment);
+
+        //Go to the card view
+        holder.cardViewUserFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Call the listener (the id is an int so I convert it)
+                appOriginRecipesClickListener.onAppOriginRecipeClicked(String.valueOf(recipesList.get(holder.getAdapterPosition()).id));
+            }
+        });
     }
 
     @Override

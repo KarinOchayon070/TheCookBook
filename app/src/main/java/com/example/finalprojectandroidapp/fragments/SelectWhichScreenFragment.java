@@ -12,9 +12,9 @@ import android.widget.Button;
 
 import com.example.finalprojectandroidapp.R;
 
-public class SelectWhichScreen extends Fragment {
+public class SelectWhichScreenFragment extends Fragment {
 
-    public SelectWhichScreen() {
+    public SelectWhichScreenFragment() {
         // Required empty public constructor
     }
 

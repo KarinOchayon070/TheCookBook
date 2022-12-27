@@ -34,6 +34,7 @@ public class UserUploadRecipesFragment extends Fragment {
     List<UploadRecipeImage> mUploads;
     LinearLayoutManager layoutManager;
 
+
     public UserUploadRecipesFragment() {
         // Required empty public constructor
     }

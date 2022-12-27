@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/select_screen_background"
-    tools:context=".fragments.SelectWhichScreen">
+    tools:context=".fragments.SelectWhichScreenFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"
