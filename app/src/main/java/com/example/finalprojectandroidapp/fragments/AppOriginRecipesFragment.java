@@ -60,7 +60,7 @@ public class AppOriginRecipesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //I create progress dialog that will pop at the start, until all the recipes will upload.
-        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_app_origin_recipes, container, false);
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setTitle("Loading Recipes");
 
@@ -117,7 +117,7 @@ public class AppOriginRecipesFragment extends Fragment {
 
         //This lines take care of the spinner.
         //I created two layout files (spinner_text, spinner_inner_text) that styles how to spinner looks.
-        spinner = view.findViewById(R.id.spinner_tags);
+        spinner = view.findViewById(R.id.spinnerTagsUserRecipes);
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(view.getContext(),R.array.tags, R.layout.spinner_text);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_inner_text);
         spinner.setAdapter(arrayAdapter);
@@ -125,7 +125,7 @@ public class AppOriginRecipesFragment extends Fragment {
 
 
         //When the user search for specific recipe
-        searchView = view.findViewById(R.id.searchView);
+        searchView = view.findViewById(R.id.searchViewtheCookBookUserRecipes);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

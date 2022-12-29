@@ -7,9 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.finalprojectandroidapp.R;
 import com.example.finalprojectandroidapp.UploadRecipeImage;
 import com.squareup.picasso.Picasso;
@@ -21,31 +22,34 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     Context mContext;
     List<UploadRecipeImage> mUploads;
 
+
     public UserRecipesAdapter(Context context, List<UploadRecipeImage> uploads) {
         this.mContext = context;
         this.mUploads = uploads;
     }
     @Override
     public ImageViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_rcepies, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_recipes, parent, false);
+
         return new ImageViewHolder(v);
 
     }
 
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
-//        UploadRecipeImage uploadCurrent = mUploads.get(position);
+
         UploadRecipeImage uploadCurrent = mUploads.get(position);
-        String test = mUploads.get(position).getName();
-        String testImage = mUploads.get(position).getImageUrl();
-        holder.textViewNameUserUploads.setText(test);
-        //holder.textViewIDUserUploads.setText(mUploads.get(position).getId());
-        Picasso.get().load(uploadCurrent.getImageUrl())
+        String recipeName = uploadCurrent.getRecipeName();
+        String recipeImage = uploadCurrent.getRecipeImageUrl();
+        holder.textViewUserRecipeName.setText(recipeName);
+        Log.d("MYTAG", "Image URL: " + uploadCurrent.getRecipeImageUrl());
+        Picasso.get().load(recipeImage)
                 .placeholder(R.mipmap.ic_launcher)
                 .fit()
                 .centerCrop()
-                .into(holder.imageViewUserUploads);
+                .into(holder.imageViewUserRecipeImage);
     }
+
 
     @Override
     public int getItemCount() {
@@ -53,18 +57,19 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     }
 
 
-
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewNameUserUploads, textViewIDUserUploads;
-        ImageView imageViewUserUploads;
 
-        public ImageViewHolder( View itemView) {
+        TextView textViewUserRecipeName, textViewUserSummary, textViewUserRecipeIngredient,  textViewUserRecipeInstruction;
+        ImageView imageViewUserRecipeImage;
+        public ImageViewHolder(View itemView) {
             super(itemView);
-            textViewNameUserUploads = itemView.findViewById(R.id.textViewUserRecipeNameTest);
-            textViewIDUserUploads = itemView.findViewById(R.id.textViewID);
-            imageViewUserUploads = itemView.findViewById(R.id.imageViewUserRecipeImageTest);
+            textViewUserRecipeName = itemView.findViewById(R.id.textViewUserRecipeName);
+            imageViewUserRecipeImage = itemView.findViewById(R.id.imageViewUserRecipeImage);
+
+//            textViewUserSummary = itemView.findViewById(R.id.textViewUserSummary);
+//            textViewUserRecipeIngredient = itemView.findViewById(R.id.textViewUserRecipeIngredient);
+//            textViewUserRecipeInstruction = itemView.findViewById(R.id.textViewUserRecipeInstruction);
         }
     }
-
 }
 

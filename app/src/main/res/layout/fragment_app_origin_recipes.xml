@@ -26,7 +26,7 @@
             android:orientation="horizontal">
 
             <SearchView
-                android:id="@+id/searchView"
+                android:id="@+id/searchViewtheCookBookUserRecipes"
                 android:layout_width="209dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#F57427"
@@ -35,7 +35,7 @@
                 android:searchIcon="@drawable/ic_search_"></SearchView>
 
             <Spinner
-                android:id="@+id/spinner_tags"
+                android:id="@+id/spinnerTagsUserRecipes"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:backgroundTint="#F57427"

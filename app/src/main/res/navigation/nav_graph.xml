@@ -41,7 +41,7 @@
         android:id="@+id/userFragment"
         android:name="com.example.finalprojectandroidapp.fragments.AppOriginRecipesFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" >
+        tools:layout="@layout/fragment_app_origin_recipes" >
         <action
             android:id="@+id/action_userFragment_to_appOriginRecipesDetailsFragment"
             app:destination="@id/appOriginRecipesDetailsFragment" />

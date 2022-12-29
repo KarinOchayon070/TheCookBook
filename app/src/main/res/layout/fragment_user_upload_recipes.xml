@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.UserUploadRecipesFragment">
 
-    <ProgressBar
-        android:id="@+id/progress_circle"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_user_images"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/theCookBookTitleUserRecipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/the_cook_book" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <SearchView
+                android:id="@+id/searchViewtheCookBookUserRecipes"
+                android:layout_width="209dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#F57427"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search here"
+                android:searchIcon="@drawable/ic_search_"></SearchView>
+
+            <Spinner
+                android:id="@+id/spinnerTagsUserRecipes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#F57427"
+                android:entries="@array/tags"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_user_images"
+            android:layout_width="397dp"
+            android:layout_height="484dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progress_circle"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </LinearLayout>
+
 
 
 </FrameLayout>
