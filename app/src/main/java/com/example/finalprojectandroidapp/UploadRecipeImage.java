@@ -3,7 +3,7 @@ package com.example.finalprojectandroidapp;
 public class UploadRecipeImage {
 
     String recipeImageUrl;
-    String recipeId;
+//    String recipeId;
     String recipeName;
     String recipeSummary;
     String recipeIngredient;

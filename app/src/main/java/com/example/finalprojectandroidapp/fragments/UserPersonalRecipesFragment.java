@@ -61,6 +61,8 @@ public class UserPersonalRecipesFragment extends Fragment {
     //This will use me to the url of the image
     String recipeImage = "";
 
+    String idUserRecipe;
+
 
 
     @Override
@@ -153,10 +155,12 @@ public class UserPersonalRecipesFragment extends Fragment {
                                         }, 500);
                                         //When the image is upload successfully I want to let the user know
 //                                        textViewUserID.setText(getArguments().getString("IDUser"));
-                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
+
                                         String uploadId = mDatabaseRef.push().getKey();
+                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
                                         mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
                                         Toast.makeText(view.getContext(), "Upload Successful", Toast.LENGTH_LONG).show();
+
                                         //Create instance of the "UploadRecipeImage" class and pass it the name (that the user entered and the image url)
 //                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(textViewUserID.getText().toString(), editTextFileName.getText().toString().trim(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
 //                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextFileName.getText().toString().trim(), mStorageRef.getDownloadUrl().toString());
@@ -236,37 +240,6 @@ public class UserPersonalRecipesFragment extends Fragment {
 
 
     //This method will be called when the user picked an image
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
-////            imageUri = data.getData();
-////            imageRecipe.setImageURI(imageUri);
-////            Log.d("TAG!!!!!!!!",data.getData().toString());
-//            imageUri = data.getData();
-//            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-//
-//            fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    // Get the URL of the uploaded image
-//                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                        @Override
-//                        public void onSuccess(Uri uri) {
-//                            // Update the url variable with the actual URL of the uploaded image
-//                            url = uri.toString();
-//                            // Display the image in the image view
-//                            imageRecipe.setImageURI(imageUri);
-//                            Log.d("TAGGGGSSGSYSGY", url);
-//                            // Use the
-//                        }
-//                    });
-//                }
-//            });
-//        }
-//    }
-
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
@@ -284,7 +257,7 @@ public class UserPersonalRecipesFragment extends Fragment {
                                     // Update the recipeImage variable with the actual URL of the uploaded image
                                     recipeImage = uri.toString();
                                     imageRecipe.setImageURI(imageUri);
-                                    Log.d("TestOnActivityResult!",recipeImage);
+                                    Log.d("TestOnActivityResult",recipeImage);
                                 }
                             });
                         }

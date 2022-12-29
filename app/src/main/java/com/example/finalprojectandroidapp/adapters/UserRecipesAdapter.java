@@ -1,6 +1,7 @@
 package com.example.finalprojectandroidapp.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,11 +30,31 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
         this.mContext = context;
         this.mUploads = uploads;
     }
-    @Override
-    public ImageViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_recipes, parent, false);
 
-        return new ImageViewHolder(v);
+
+    @Override
+    public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_recipes, parent, false);
+        CardView cardView = view.findViewById(R.id.cardViewUserRecipes);
+        final ImageViewHolder holder = new ImageViewHolder(view);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+
+
+                bundle.putString("image", mUploads.get(holder.getAdapterPosition()).getRecipeImageUrl());
+                bundle.putString("name",mUploads.get(holder.getAdapterPosition()).getRecipeName());
+                bundle.putString("summary",mUploads.get(holder.getAdapterPosition()).getRecipeSummary());
+                bundle.putString("ingredient",mUploads.get(holder.getAdapterPosition()).getRecipeIngredient());
+                bundle.putString("instructions",mUploads.get(holder.getAdapterPosition()).getRecipeInstructions());
+
+
+                Navigation.findNavController(view).navigate(R.id.action_userUploadRecipesFragment_to_userPersonalRecipesDetailsFragment, bundle);
+            }
+        });
+        return holder;
 
     }
 

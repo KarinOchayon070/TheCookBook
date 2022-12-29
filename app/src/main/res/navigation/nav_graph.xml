@@ -59,7 +59,11 @@
         android:id="@+id/userUploadRecipesFragment"
         android:name="com.example.finalprojectandroidapp.fragments.UserUploadRecipesFragment"
         android:label="fragment_user_upload_recipes"
-        tools:layout="@layout/fragment_user_upload_recipes" />
+        tools:layout="@layout/fragment_user_upload_recipes" >
+        <action
+            android:id="@+id/action_userUploadRecipesFragment_to_userPersonalRecipesDetailsFragment"
+            app:destination="@id/userPersonalRecipesDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/selectWhichScreen"
         android:name="com.example.finalprojectandroidapp.fragments.SelectWhichScreenFragment"
@@ -77,4 +81,13 @@
         android:name="com.example.finalprojectandroidapp.fragments.AppOriginRecipesDetailsFragment"
         android:label="fragment_app_origin_recipes_details"
         tools:layout="@layout/fragment_app_origin_recipes_details" />
+    <fragment
+        android:id="@+id/userPersonalRecipesDetailsFragment"
+        android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipesDetailsFragment"
+        android:label="fragment_user_personal_recipes_details"
+        tools:layout="@layout/fragment_user_personal_recipes_details" >
+        <action
+            android:id="@+id/action_userPersonalRecipesDetailsFragment_to_userUploadRecipesFragment"
+            app:destination="@id/userUploadRecipesFragment" />
+    </fragment>
 </navigation>

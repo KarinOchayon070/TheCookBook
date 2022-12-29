@@ -42,10 +42,10 @@ public class AppOriginRecipesDetailsFragment extends Fragment {
         RecipeId = Integer.parseInt(getArguments().getString("recipeID"));
 
         //Identify the relevant elements by id
-        recipeNameDetailsFragment = view.findViewById(R.id.recipeNameDetailsFragment);
-        recipeSummaryDetailsFragment = view.findViewById(R.id.recipeSummaryDetailsFragment);
-        recipeImageDetailsFragment = view.findViewById(R.id.recipeImageDetailsFragment);
-        recipeTestDetailsFragment = view.findViewById(R.id.recipeTestDetailsFragment);
+        recipeNameDetailsFragment = view.findViewById(R.id.TextViewRecipeNameUserDetailsFragment);
+        recipeSummaryDetailsFragment = view.findViewById(R.id.recipeSummaryUserDetailsFragment);
+        recipeImageDetailsFragment = view.findViewById(R.id.recipeImageUserDetailsFragment);
+        recipeTestDetailsFragment = view.findViewById(R.id.recipeTestUserDetailsFragment);
 
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setTitle("Loading details");
