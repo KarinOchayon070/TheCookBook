@@ -1,14 +1,19 @@
 package com.example.finalprojectandroidapp.fragments;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -51,6 +56,16 @@ public class UserUploadRecipesFragment extends Fragment {
 
         mUploads = new ArrayList<>();
 
+        Button buttonUserUploadRecipe =  view.findViewById(R.id.buttonUserUploadRecipe);
+
+        buttonUserUploadRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_userUploadRecipesFragment_to_userPersonalRecipes);
+            }
+        });
+
+
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Recipes Images");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,6 +91,10 @@ public class UserUploadRecipesFragment extends Fragment {
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
+
+
+
+
         return view;
     }
 

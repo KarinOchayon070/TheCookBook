@@ -42,7 +42,7 @@ public class SelectWhichScreenFragment extends Fragment {
         UsersSharedRecipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userPersonalRecipes);
+                Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userUploadRecipesFragment);
             }
         });
 

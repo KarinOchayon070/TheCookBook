@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_userUploadRecipesFragment_to_userPersonalRecipesDetailsFragment"
             app:destination="@id/userPersonalRecipesDetailsFragment" />
+        <action
+            android:id="@+id/action_userUploadRecipesFragment_to_userPersonalRecipes"
+            app:destination="@id/userPersonalRecipes" />
     </fragment>
     <fragment
         android:id="@+id/selectWhichScreen"
@@ -73,8 +76,8 @@
             android:id="@+id/action_selectWhichScreen_to_userFragment"
             app:destination="@id/userFragment" />
         <action
-            android:id="@+id/action_selectWhichScreen_to_userPersonalRecipes"
-            app:destination="@id/userPersonalRecipes" />
+            android:id="@+id/action_selectWhichScreen_to_userUploadRecipesFragment"
+            app:destination="@id/userUploadRecipesFragment" />
     </fragment>
     <fragment
         android:id="@+id/appOriginRecipesDetailsFragment"
