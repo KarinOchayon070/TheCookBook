@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.finalprojectandroidapp.R;
-import com.example.finalprojectandroidapp.UploadRecipeImage;
 import com.squareup.picasso.Picasso;
 
 public class UserPersonalRecipesDetailsFragment extends Fragment {

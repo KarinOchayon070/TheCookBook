@@ -1,6 +1,8 @@
 package com.example.finalprojectandroidapp;
 
-public class UploadRecipeImage {
+import com.google.firebase.database.Exclude;
+
+public class UploadRecipe {
 
     String recipeImageUrl;
     String userId;
@@ -8,12 +10,13 @@ public class UploadRecipeImage {
     String recipeSummary;
     String recipeIngredient;
     String recipeInstructions;
+    private String mKey;
 
     //empty constructor needed (to work with firebase) - DO NOT DELETE
-    public UploadRecipeImage() {
+    public UploadRecipe() {
     }
 
-    public UploadRecipeImage(String userId, String recipeName, String recipeSummary, String recipeIngredient, String recipeInstructions, String recipeImageUrl) {
+    public UploadRecipe(String userId, String recipeName, String recipeSummary, String recipeIngredient, String recipeInstructions, String recipeImageUrl) {
         //If the user didn't give the image a name - save it in the database as "No Name"
         //Trim is for remove the empty spaces
         if (recipeName.trim().equals("")) {
@@ -75,5 +78,15 @@ public class UploadRecipeImage {
 
     public void setRecipeImageUrl(String recipeImageUrl) {
         this.recipeImageUrl = recipeImageUrl;
+    }
+
+    @Exclude
+    public String getKey() {
+        return mKey;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        mKey = key;
     }
 }

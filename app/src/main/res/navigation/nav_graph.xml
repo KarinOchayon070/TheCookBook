@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/userPersonalRecipes"
-        android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipesFragment"
+        android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipesUploadOptionFragment"
         android:label="fragment_user_personal_recipes"
         tools:layout="@layout/fragment_user_personal_recipes" >
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/userUploadRecipesFragment"
-        android:name="com.example.finalprojectandroidapp.fragments.UserUploadRecipesFragment"
+        android:name="com.example.finalprojectandroidapp.fragments.UserRecipesFragment"
         android:label="fragment_user_upload_recipes"
         tools:layout="@layout/fragment_user_upload_recipes" >
         <action

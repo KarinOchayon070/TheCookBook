@@ -24,7 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.finalprojectandroidapp.R;
-import com.example.finalprojectandroidapp.UploadRecipeImage;
+import com.example.finalprojectandroidapp.UploadRecipe;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +36,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 
-public class UserPersonalRecipesFragment extends Fragment {
+public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
     //I will use this later to identify the image request
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -158,7 +158,7 @@ public class UserPersonalRecipesFragment extends Fragment {
                                         Log.d("tagiduser", IDUser);
 
 
-                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
+                                        UploadRecipe uploadRecipeImage = new UploadRecipe(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
                                         mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
                                         Toast.makeText(view.getContext(), "Upload Successful", Toast.LENGTH_LONG).show();
 

@@ -88,7 +88,8 @@ public class LoginFragment extends Fragment {
                                                                 Toast.makeText(view.getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
                                                                 //If the user is admin - go to admin fragment
                                                                 if(snapshot.child(id).child("isAdmin").getValue() != null){
-                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminFragment);
+                                                                    Toast.makeText(view.getContext(), "Hi There Cool Admin!", Toast.LENGTH_SHORT).show();
+                                                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_selectWhichScreen, bundle);
                                                                 }
                                                                 //If the user is regular user - go to user fragment
                                                                 else {
