@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,24 @@ import com.example.finalprojectandroidapp.R;
 
 public class SelectWhichScreenFragment extends Fragment {
 
+    private String mParam;
+    private static final String ARG_PARAM = "param1";
+
+
+    public static SelectWhichScreenFragment newInstance(String userId) {
+        SelectWhichScreenFragment fragment = new SelectWhichScreenFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM,userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam = getArguments().getString(ARG_PARAM);
+        }
+    }
 
 
     public SelectWhichScreenFragment() {
@@ -32,17 +51,23 @@ public class SelectWhichScreenFragment extends Fragment {
         AppOriginRecipesBtn = view.findViewById(R.id.AppOriginRecipesBtn);
         UsersSharedRecipesBtn = view.findViewById(R.id.UsersSharedRecipesBtn);
 
+        String IDUser = getArguments().getString("IDUser");
+        Log.d("tagLetsTest", IDUser);
+        Bundle bundle = new Bundle();
+        bundle.putString("IDUser", IDUser);
+
+
         AppOriginRecipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userFragment);
+                Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userFragment, bundle);
             }
         });
 
         UsersSharedRecipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userUploadRecipesFragment);
+                Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userUploadRecipesFragment, bundle);
             }
         });
 

@@ -61,8 +61,6 @@ public class UserPersonalRecipesFragment extends Fragment {
     //This will use me to the url of the image
     String recipeImage = "";
 
-    String idUserRecipe;
-
 
 
     @Override
@@ -71,9 +69,7 @@ public class UserPersonalRecipesFragment extends Fragment {
         //The current view is the fragment where the user upload recipes images
         View view = inflater.inflate(R.layout.fragment_user_personal_recipes, container, false);
 
-        //Identify the relevant elements by id
-//        textViewUserID = view.findViewById(R.id.textViewUserID);
-//        editTextFileName = view.findViewById(R.id.editTextRecipeName);
+
         chooseImage = view.findViewById(R.id.chooseImage);
         uploadImage = view.findViewById(R.id.uploadImage);
         textViewShowUpload = view.findViewById(R.id.textViewShowUpload);
@@ -157,36 +153,21 @@ public class UserPersonalRecipesFragment extends Fragment {
 //                                        textViewUserID.setText(getArguments().getString("IDUser"));
 
                                         String uploadId = mDatabaseRef.push().getKey();
-                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
+
+                                        String IDUser = getArguments().getString("IDUser");
+                                        Log.d("tagiduser", IDUser);
+
+
+                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
                                         mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
                                         Toast.makeText(view.getContext(), "Upload Successful", Toast.LENGTH_LONG).show();
 
-                                        //Create instance of the "UploadRecipeImage" class and pass it the name (that the user entered and the image url)
-//                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(textViewUserID.getText().toString(), editTextFileName.getText().toString().trim(), taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-//                                        UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextFileName.getText().toString().trim(), mStorageRef.getDownloadUrl().toString());
-                                        //Create a new entry to the database with an unique id
-
-
-//                                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                            @Override
-//                                            public void onSuccess(Uri uri) {
-//                                                // Update the url variable with the actual URL of the uploaded image
-//                                                url = uri.toString();
-//                                                // Display the URL in the text view
-////                                                UploadRecipeImage uploadRecipeImage = new UploadRecipeImage(editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
-////                                                String uploadId = mDatabaseRef.push().getKey();
-////                                                mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
-//                                            }
-//                                        });
-
-
-
 
                                         //This two lines add to the "Users" collection in real time database the image each user uploaded acorrding to his id
-//                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
-//                                        databaseReference.child("Users").child(textViewUserID.getText().toString()).child(uploadId).setValue(uploadRecipeImage);
+                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
+                                        databaseReference.child("Users").child(IDUser).child(uploadId).setValue(uploadRecipeImage);
                                     }
-                                //When the image is not upload successfuly
+                                //When the image is not upload successfully
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {

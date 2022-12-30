@@ -42,6 +42,27 @@ public class RegisterFragment extends Fragment {
             passwordRegisterFragment, editTextTextConfirmPasswordRegisterFragment, loginTextViewRegisterFragment;
 
 
+    private String mParam;
+    private static final String ARG_PARAM = "param1";
+
+
+    public static RegisterFragment newInstance(String userId) {
+        RegisterFragment fragment = new RegisterFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM,userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam = getArguments().getString(ARG_PARAM);
+        }
+    }
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -50,6 +71,8 @@ public class RegisterFragment extends Fragment {
 
         //Create object of DatabaseReference class to access firebase's realtime database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
         //Identify the relevant elements by id
@@ -61,6 +84,8 @@ public class RegisterFragment extends Fragment {
         registerBtn = view.findViewById(R.id.registerButtonRegisterFragment);
         loginTextViewRegisterFragment = view.findViewById(R.id.loginTextViewRegisterFragment);
 
+
+        Bundle bundle = new Bundle();
 
         //When register button is pressed...
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +119,7 @@ public class RegisterFragment extends Fragment {
                                 //Sending data to firebase realtime database
                                 //I am using the id of each user as unique identity of every user
                                 //All the other details (full name, email, password, etc..) comes under the user's id
+                                bundle.putString("IDUser", id);
                                 databaseReference.child("Users").child(id).child("fullName").setValue(fullName);
                                 databaseReference.child("Users").child(id).child("email").setValue(email);
                                 databaseReference.child("Users").child(id).child("password").setValue(password);
@@ -103,7 +129,24 @@ public class RegisterFragment extends Fragment {
                                 databaseReference.child("Users").child(id).child("isUser").setValue("1");
                                 //Show the user a success message
                                 Toast.makeText(view.getContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
-                                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_selectWhichScreen);
+
+
+
+                                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                            @Override
+                                            public void onSuccess(AuthResult authResult) {
+                                                // User has been successfully created
+                                                // You can now save the user's details in the Realtime Database
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // There was an error creating the user
+                                                // You can show an error message to the user
+                                            }
+                                        });
+                                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_selectWhichScreen, bundle);
                             }
                         }
                         @Override
@@ -119,7 +162,7 @@ public class RegisterFragment extends Fragment {
         loginTextViewRegisterFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
+                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment, bundle);
             }
         });
         return view;

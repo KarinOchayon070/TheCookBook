@@ -3,7 +3,7 @@ package com.example.finalprojectandroidapp;
 public class UploadRecipeImage {
 
     String recipeImageUrl;
-//    String recipeId;
+    String userId;
     String recipeName;
     String recipeSummary;
     String recipeIngredient;
@@ -13,7 +13,7 @@ public class UploadRecipeImage {
     public UploadRecipeImage() {
     }
 
-    public UploadRecipeImage(String recipeName, String recipeSummary, String recipeIngredient, String recipeInstructions, String recipeImageUrl) {
+    public UploadRecipeImage(String userId, String recipeName, String recipeSummary, String recipeIngredient, String recipeInstructions, String recipeImageUrl) {
         //If the user didn't give the image a name - save it in the database as "No Name"
         //Trim is for remove the empty spaces
         if (recipeName.trim().equals("")) {
@@ -22,20 +22,20 @@ public class UploadRecipeImage {
         this.recipeSummary = recipeSummary;
         this.recipeIngredient = recipeIngredient;
         this.recipeInstructions = recipeInstructions;
-//      this.recipeId = recipeId;
+        this.userId = userId;
         this.recipeName = recipeName;
         this.recipeImageUrl = recipeImageUrl;
 
 
     }
 
-//    public String getRecipeId() {
-//        return recipeId;
-//    }
-//
-//    public void setRecipeId(String recipeId) {
-//        recipeId = recipeId;
-//    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
 
     public String getRecipeName() {
