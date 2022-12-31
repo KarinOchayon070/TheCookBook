@@ -1,5 +1,7 @@
 package com.example.finalprojectandroidapp.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -41,9 +43,6 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
     LinearLayoutManager layoutManager;
     FirebaseStorage mStorage;
     ValueEventListener mDBListener;
-    String IDUser="";
-
-
 
 
     @Override
@@ -52,11 +51,10 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
         View view = inflater.inflate(R.layout.fragment_user_upload_recipes, container, false);
 
 
-        IDUser += getArguments().getString("IDUser");
-        Log.d("tagLetsTest", IDUser);
+        String IDUser = getArguments().getString("IDUser");
+
         Bundle bundle = new Bundle();
         bundle.putString("IDUser", IDUser);
-
 
 
         mRecyclerView = view.findViewById(R.id.recycler_view_user_images);
@@ -71,8 +69,6 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
 
 
 
-
-
         buttonUserUploadRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,13 +76,8 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
             }
         });
 
-
-
-//        layoutManager = new LinearLayoutManager(getContext()); // new GridLayoutManager
-//        mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new UserRecipesAdapter(view.getContext(), mUploads);
         mRecyclerView.setAdapter(mAdapter);
-//        mProgressCircle.setVisibility(View.INVISIBLE);
         mAdapter.setOnItemClickListener(this);
 
         mStorage = FirebaseStorage.getInstance();
@@ -105,11 +96,6 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
                 }
                 mAdapter.notifyDataSetChanged();
                 mProgressCircle.setVisibility(View.INVISIBLE);
-//                layoutManager = new LinearLayoutManager(getContext()); // new GridLayoutManager
-//                mRecyclerView.setLayoutManager(layoutManager);
-//                mAdapter = new UserRecipesAdapter(view.getContext(), mUploads);
-//                mRecyclerView.setAdapter(mAdapter);
-//                mProgressCircle.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -135,24 +121,78 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
 
     @Override
     public void onDeleteClick(int position) {
-        if(IDUser == " "){
-            UploadRecipe selectedItem = mUploads.get(position);
-            final String selectedKey = selectedItem.getKey();
 
-            StorageReference imageRef = mStorage.getReferenceFromUrl(selectedItem.getRecipeImageUrl());
+        //Get the user id using bundle
+        String IDUser = getArguments().getString("IDUser");
+        Log.d("tagLetsTest", IDUser);
 
-            imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    mDatabaseRef.child(selectedKey).removeValue();
-                    Log.d("tagchecksucces", mDatabaseRef.child(selectedKey).toString());
-                    Toast.makeText(getView().getContext(), "Recipe Deleted", Toast.LENGTH_SHORT).show();
+        //Transfer to the next fragment the user id
+        Bundle bundle = new Bundle();
+        bundle.putString("IDUser", IDUser);
+
+
+        //The selected key is the unique id of each recipe that save id the firebase
+        //The unique id of each recipe saved as a child of "Images Recipes" and a child in the user who upload it
+        UploadRecipe selectedItem = mUploads.get(position);
+        final String selectedKey = selectedItem.getKey();
+
+
+        StorageReference imageRef = mStorage.getReferenceFromUrl(selectedItem.getRecipeImageUrl());
+
+        //Get the url to the current user
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(IDUser);
+
+        DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("Recipes Images").child(selectedKey);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //If the current user is an admin/the user who upload the recipe - let him delete
+                if (dataSnapshot.hasChild("isAdmin") || dataSnapshot.hasChild(selectedKey)) {
+                    imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //If the user who upload the recipe do the delete action
+                            if(dataSnapshot.hasChild(selectedKey)){
+                                mDatabaseRef.child(selectedKey).removeValue();
+                                userRef.child(selectedKey).removeValue();
+                            }
+                            if(dataSnapshot.hasChild("isAdmin")){
+                                recipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild("userId")) {
+                                            String userWhoUploadId = dataSnapshot.child("userId").getValue(String.class);
+                                            mDatabaseRef.child(selectedKey).removeValue();
+                                            FirebaseDatabase.getInstance().getReference("Users").child(userWhoUploadId).child(selectedKey).removeValue();
+                                        } else {
+                                            // The "userId" field does not exist
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // An error occurred, log the error
+                                        Log.e(TAG, "Error retrieving userId field", databaseError.toException());
+                                    }
+                                });
+                            }
+                            Toast.makeText(getView().getContext(), "Recipe Deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    //Else - the user can't delete the current recipe
+                } else {
+                    Toast.makeText(getView().getContext(), "This User Is Not Allowed To Delete This Recipe", Toast.LENGTH_SHORT).show();
+
                 }
-            });
-        }
-        else{
-            Toast.makeText(getView().getContext(), "This User Is Not Allowed To Delete This Recipe", Toast.LENGTH_SHORT).show();
-        }
+            }
+            //If something is worng
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // An error occurred, log the error
+                Log.e(TAG, "Error", databaseError.toException());
+            }
+        });
 
     }
 

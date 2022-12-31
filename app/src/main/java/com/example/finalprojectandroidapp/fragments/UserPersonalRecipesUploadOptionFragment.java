@@ -69,6 +69,8 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
         //The current view is the fragment where the user upload recipes images
         View view = inflater.inflate(R.layout.fragment_user_personal_recipes, container, false);
 
+        Bundle bundle = new Bundle();
+
 
         chooseImage = view.findViewById(R.id.chooseImage);
         uploadImage = view.findViewById(R.id.uploadImage);
@@ -196,7 +198,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
         textViewShowUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_userPersonalRecipes_to_userUploadRecipesFragment);
+                Navigation.findNavController(view).navigate(R.id.action_userPersonalRecipes_to_userUploadRecipesFragment, bundle);
             }
         });
         return view;
