@@ -10,22 +10,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/TheCookBookTitleImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/the_cook_book" />
+            android:background="#F57427"
+            app:srcCompat="@drawable/header_title" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/backgrounddesign"
+            android:backgroundTint="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -63,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Recipe summary" />
+                    android:text="Recipe Summary" />
 
                 <TextView
                     android:id="@+id/recipeInstructionTitleUserDetailsFragment"
@@ -81,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="TextView" />
+                    android:text="Recipe Instruction" />
             </LinearLayout>
         </ScrollView>
 

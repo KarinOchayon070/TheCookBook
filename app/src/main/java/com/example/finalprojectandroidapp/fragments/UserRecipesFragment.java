@@ -2,6 +2,7 @@ package com.example.finalprojectandroidapp.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -37,19 +38,22 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
 
     RecyclerView mRecyclerView;
     UserRecipesAdapter mAdapter;
-    ProgressBar mProgressCircle;
+//    ProgressBar mProgressCircle;
     DatabaseReference mDatabaseRef;
     List<UploadRecipe> mUploads;
     LinearLayoutManager layoutManager;
     FirebaseStorage mStorage;
     ValueEventListener mDBListener;
+    ProgressDialog progressDialog;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_user_upload_recipes, container, false);
-
+        progressDialog = new ProgressDialog(view.getContext());
+        progressDialog.setTitle("Loading Recipes");
+        progressDialog.show();
 
         String IDUser = getArguments().getString("IDUser");
 
@@ -61,7 +65,7 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        mProgressCircle = view.findViewById(R.id.progress_circle);
+//        mProgressCircle = view.findViewById(R.id.progress_circle);
 
         mUploads = new ArrayList<>();
 
@@ -95,13 +99,15 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
                     mUploads.add(upload);
                 }
                 mAdapter.notifyDataSetChanged();
-                mProgressCircle.setVisibility(View.INVISIBLE);
+//                mProgressCircle.setVisibility(View.INVISIBLE);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(view.getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                mProgressCircle.setVisibility(View.INVISIBLE);
+//                mProgressCircle.setVisibility(View.INVISIBLE);
+                progressDialog.dismiss();
             }
         });
         return view;

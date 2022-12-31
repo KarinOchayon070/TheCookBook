@@ -90,6 +90,7 @@ public class AppOriginRecipesFragment extends Fragment {
                 recycleView.setLayoutManager(layoutManager);
                 recipesAdapter = new RecipesAdapter(view.getContext(), recipesApiResponse.recipes, appOriginRecipesClickListener);
                 recycleView.setAdapter(recipesAdapter);
+                progressDialog.dismiss();
 
             }
             @Override
@@ -97,6 +98,8 @@ public class AppOriginRecipesFragment extends Fragment {
                 Toast.makeText(getView().getContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
+
+
 
         //This is for when user choose item in the spinner
         AdapterView.OnItemSelectedListener spinnerSelectedListener = new AdapterView.OnItemSelectedListener() {
@@ -145,7 +148,7 @@ public class AppOriginRecipesFragment extends Fragment {
 //        requestManagerApi.getRecipes(recipeResponseListener);
 //        progressDialog.show();
 
-
+        progressDialog.dismiss();
         return view;
     }
 }
