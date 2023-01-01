@@ -101,19 +101,19 @@ public class RegisterFragment extends Fragment {
 
                 //Check if the user fill all the fields before sending data to firebase
                 if (fullName.isEmpty() || email.isEmpty() || id.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(view.getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Please Fill All Fields", Toast.LENGTH_SHORT).show();
                 }
 
                 //Check if the passwords are matching with each other
                 else if (!passwordRegisterFragment.getText().toString().equals(editTextTextConfirmPasswordRegisterFragment.getText().toString())) {
-                    Toast.makeText(view.getContext(), "Different passwords have been entered", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Different Passwords Have Been Entered", Toast.LENGTH_SHORT).show();
                 } else {
                     databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             //Check if ID is not registered before
                             if (snapshot.hasChild(id)) {
-                                Toast.makeText(view.getContext(), "ID is already registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(view.getContext(), "ID Is Already Registered", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 //Sending data to firebase realtime database
@@ -128,7 +128,7 @@ public class RegisterFragment extends Fragment {
                                 // "isAdmin" in my database
                                 databaseReference.child("Users").child(id).child("isUser").setValue("1");
                                 //Show the user a success message
-                                Toast.makeText(view.getContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(view.getContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
 
 
 

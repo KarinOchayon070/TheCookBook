@@ -71,7 +71,7 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
 
         Button buttonUserUploadRecipe =  view.findViewById(R.id.buttonUserUploadRecipe);
 
-        TextView userRecipesFragmentGoBackText = view.findViewById(R.id.userRecipesFragmentGoBackText);
+//        TextView userRecipesFragmentGoBackText = view.findViewById(R.id.userRecipesFragmentGoBackText);
 
 
         buttonUserUploadRecipe.setOnClickListener(new View.OnClickListener() {
@@ -81,13 +81,13 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
             }
         });
 
-        userRecipesFragmentGoBackText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_userUploadRecipesFragment_to_selectWhichScreen, bundle);
-
-            }
-        });
+//        userRecipesFragmentGoBackText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Navigation.findNavController(view).navigate(R.id.action_userUploadRecipesFragment_to_selectWhichScreen, bundle);
+//
+//            }
+//        });
 
         mAdapter = new UserRecipesAdapter(view.getContext(), mUploads, bundle);
         mRecyclerView.setAdapter(mAdapter);
@@ -124,17 +124,17 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
         return view;
     }
 
-
+//
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getView().getContext(), "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public void onWhatEverClick(int position) {
-        Toast.makeText(getView().getContext(), "Whatever click at position: " + position, Toast.LENGTH_SHORT).show();
-
-    }
+//
+//    @Override
+//    public void onWhatEverClick(int position) {
+//        Toast.makeText(getView().getContext(), "Whatever click at position: " + position, Toast.LENGTH_SHORT).show();
+//
+//    }
 
     @Override
     public void onDeleteClick(int position) {

@@ -148,7 +148,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
                                             @Override
                                             public void run() {
                                                 progressBar.setProgress(0);
-                                                imageRecipe.setImageResource(R.drawable.whitebackground);
+                                                imageRecipe.setImageResource(R.drawable.orange_border);
                                             }
                                         }, 500);
                                         //When the image is upload successfully I want to let the user know

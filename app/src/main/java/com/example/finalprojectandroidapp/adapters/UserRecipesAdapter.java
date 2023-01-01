@@ -183,10 +183,10 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("Select Action");
-            MenuItem doWhatever = menu.add(Menu.NONE, 1, 1, "Do whatever");
-            MenuItem delete = menu.add(Menu.NONE, 2, 2, "Delete");
+//            MenuItem doWhatever = menu.add(Menu.NONE, 1, 1, "Do whatever");
+            MenuItem delete = menu.add(Menu.NONE, 1, 1, "Delete");
 
-            doWhatever.setOnMenuItemClickListener(this);
+//            doWhatever.setOnMenuItemClickListener(this);
             delete.setOnMenuItemClickListener(this);
         }
 
@@ -197,10 +197,8 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                 if (position != RecyclerView.NO_POSITION) {
 
                     switch (item.getItemId()) {
+
                         case 1:
-                            mListener.onWhatEverClick(position);
-                            return true;
-                        case 2:
                             mListener.onDeleteClick(position);
                             return true;
                     }
@@ -214,8 +212,6 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     //What happened when the user long cilck
     public interface OnItemClickListener {
         void onItemClick(int position);
-
-        void onWhatEverClick(int position);
 
         void onDeleteClick(int position);
     }

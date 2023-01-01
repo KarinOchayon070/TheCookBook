@@ -79,7 +79,7 @@ public class UserFavoriteRecipesAdapter extends RecyclerView.Adapter<UserFavorit
 
         Picasso.get()
                 .load(recipeImageUrl)
-                .placeholder(R.drawable.header_title)
+                .placeholder(R.mipmap.ic_launcher)
                 .fit()
                 .centerCrop()
                 .into(image);

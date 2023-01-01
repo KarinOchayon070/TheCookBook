@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment {
 
                                             //Check if the user fill all the fields before sending data to firebase
                                             if (id.isEmpty() || password.isEmpty()) {
-                                                Toast.makeText(view.getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(view.getContext(), "Please Fill All Fields", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
@@ -87,20 +87,20 @@ public class LoginFragment extends Fragment {
                                                                 bundle.putString("IDUser", id);
                                                                 //If the user is admin - go to admin fragment
                                                                 if(snapshot.child(id).child("isAdmin").getValue() != null){
-                                                                    Toast.makeText(view.getContext(), "Hi There Cool Admin!", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(view.getContext(), "Hi There yOU Cool Admin!", Toast.LENGTH_SHORT).show();
                                                                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_selectWhichScreen, bundle);
                                                                 }
                                                                 //If the user is regular user - go to user fragment
                                                                 else {
-                                                                    Toast.makeText(view.getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(view.getContext(), "Successfully Logged In", Toast.LENGTH_SHORT).show();
                                                                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_selectWhichScreen, bundle);
                                                                 }
                                                             }
                                                             else{
-                                                                Toast.makeText(view.getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(view.getContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
                                                             }
                                                         } else {
-                                                            Toast.makeText(view.getContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(view.getContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                     @Override

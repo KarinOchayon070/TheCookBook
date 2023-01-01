@@ -65,14 +65,14 @@ public class AppOriginRecipesFragment extends Fragment {
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setTitle("Loading Recipes");
 
-        TextView appRecipesFragmentGoBackText = view.findViewById(R.id.appRecipesFragmentGoBackText);
-
-        appRecipesFragmentGoBackText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Navigation.findNavController(view).navigate(R.id.action_userFragment_to_selectWhichScreen);
-            }
-        });
+//        TextView appRecipesFragmentGoBackText = view.findViewById(R.id.appRecipesFragmentGoBackText);
+//
+//        appRecipesFragmentGoBackText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Navigation.findNavController(view).navigate(R.id.action_userFragment_to_selectWhichScreen);
+//            }
+//        });
 
         //Create "appOriginRecipesClickListener" object so I can put it the adapter
         //Each recipe is identify according to it's id (in the api) - so when the user will click one of the
