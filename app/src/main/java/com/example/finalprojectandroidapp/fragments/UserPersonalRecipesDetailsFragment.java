@@ -3,6 +3,7 @@ package com.example.finalprojectandroidapp.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ public class UserPersonalRecipesDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_personal_recipes_details, container, false);
 
 
+
         TextView recipeName = view.findViewById(R.id.TextViewRecipeNameUserDetailsFragment);
         recipeName.setText(getArguments().getString("name"));
 
@@ -72,6 +74,15 @@ public class UserPersonalRecipesDetailsFragment extends Fragment {
         recipeInstructions.setText(getArguments().getString("instructions"));
 
 
+        TextView userRecipesDetailsFragmentGoBackText = view.findViewById(R.id.userRecipesDetailsFragmentGoBackText);
+
+
+        userRecipesDetailsFragmentGoBackText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_userPersonalRecipesDetailsFragment_to_userUploadRecipesFragment);
+            }
+        });
 
         return view;
     }

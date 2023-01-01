@@ -45,12 +45,15 @@
         <action
             android:id="@+id/action_userFragment_to_appOriginRecipesDetailsFragment"
             app:destination="@id/appOriginRecipesDetailsFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_selectWhichScreen"
+            app:destination="@id/selectWhichScreen" />
     </fragment>
     <fragment
         android:id="@+id/userPersonalRecipes"
         android:name="com.example.finalprojectandroidapp.fragments.UserPersonalRecipesUploadOptionFragment"
         android:label="fragment_user_personal_recipes"
-        tools:layout="@layout/fragment_user_personal_recipes" >
+        tools:layout="@layout/fragment_user_personal_recipes_upload_option" >
         <action
             android:id="@+id/action_userPersonalRecipes_to_userUploadRecipesFragment"
             app:destination="@id/userUploadRecipesFragment" />
@@ -59,13 +62,16 @@
         android:id="@+id/userUploadRecipesFragment"
         android:name="com.example.finalprojectandroidapp.fragments.UserRecipesFragment"
         android:label="fragment_user_upload_recipes"
-        tools:layout="@layout/fragment_user_upload_recipes" >
+        tools:layout="@layout/fragment_user_recipes" >
         <action
             android:id="@+id/action_userUploadRecipesFragment_to_userPersonalRecipesDetailsFragment"
             app:destination="@id/userPersonalRecipesDetailsFragment" />
         <action
             android:id="@+id/action_userUploadRecipesFragment_to_userPersonalRecipes"
             app:destination="@id/userPersonalRecipes" />
+        <action
+            android:id="@+id/action_userUploadRecipesFragment_to_selectWhichScreen"
+            app:destination="@id/selectWhichScreen" />
     </fragment>
     <fragment
         android:id="@+id/selectWhichScreen"
@@ -78,6 +84,9 @@
         <action
             android:id="@+id/action_selectWhichScreen_to_userUploadRecipesFragment"
             app:destination="@id/userUploadRecipesFragment" />
+        <action
+            android:id="@+id/action_selectWhichScreen_to_userFavoriteRecipesFragment"
+            app:destination="@id/userFavoriteRecipesFragment" />
     </fragment>
     <fragment
         android:id="@+id/appOriginRecipesDetailsFragment"
@@ -92,5 +101,14 @@
         <action
             android:id="@+id/action_userPersonalRecipesDetailsFragment_to_userUploadRecipesFragment"
             app:destination="@id/userUploadRecipesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFavoriteRecipesFragment"
+        android:name="com.example.finalprojectandroidapp.fragments.UserFavoriteRecipesFragment"
+        android:label="fragment_user_favorite_recipes"
+        tools:layout="@layout/fragment_user_favorite_recipes" >
+        <action
+            android:id="@+id/action_userFavoriteRecipesFragment_to_userPersonalRecipesDetailsFragment"
+            app:destination="@id/userPersonalRecipesDetailsFragment" />
     </fragment>
 </navigation>

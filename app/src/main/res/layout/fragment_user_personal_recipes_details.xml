@@ -89,6 +89,13 @@
             </LinearLayout>
         </ScrollView>
 
+        <TextView
+            android:id="@+id/userRecipesDetailsFragmentGoBackText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Go Back To All Users Recipes" />
+
     </LinearLayout>
 
 </FrameLayout>

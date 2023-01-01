@@ -13,6 +13,8 @@ import android.widget.Button;
 
 import com.example.finalprojectandroidapp.R;
 
+import org.checkerframework.checker.units.qual.C;
+
 public class SelectWhichScreenFragment extends Fragment {
 
     private String mParam;
@@ -39,7 +41,7 @@ public class SelectWhichScreenFragment extends Fragment {
         // Required empty public constructor
     }
 
-    Button AppOriginRecipesBtn, UsersSharedRecipesBtn;
+    Button AppOriginRecipesBtn, UsersSharedRecipesBtn, YourFavoriteRecipesBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,9 +52,11 @@ public class SelectWhichScreenFragment extends Fragment {
         //Identify the relevant elements by id
         AppOriginRecipesBtn = view.findViewById(R.id.AppOriginRecipesBtn);
         UsersSharedRecipesBtn = view.findViewById(R.id.UsersSharedRecipesBtn);
+        YourFavoriteRecipesBtn = view.findViewById(R.id.YourFavoriteRecipesBtn);
 
         String IDUser = getArguments().getString("IDUser");
         Log.d("tagLetsTest", IDUser);
+
         Bundle bundle = new Bundle();
         bundle.putString("IDUser", IDUser);
 
@@ -68,6 +72,13 @@ public class SelectWhichScreenFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userUploadRecipesFragment, bundle);
+            }
+        });
+
+        YourFavoriteRecipesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userFavoriteRecipesFragment, bundle);
             }
         });
 

@@ -55,10 +55,19 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewUserFragment"
+            android:id="@+id/recyclerViewUserFavoritesRecipesFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp" />
+            android:layout_margin="4dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/appRecipesFragmentGoBackText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Go Back To Recipes Options" />
 
     </LinearLayout>
 

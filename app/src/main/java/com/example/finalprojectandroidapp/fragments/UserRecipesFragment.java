@@ -2,22 +2,21 @@ package com.example.finalprojectandroidapp.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.finalprojectandroidapp.R;
 import com.example.finalprojectandroidapp.UploadRecipe;
 import com.example.finalprojectandroidapp.adapters.UserRecipesAdapter;
@@ -29,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +45,12 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
     ProgressDialog progressDialog;
 
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_user_upload_recipes, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_recipes, container, false);
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setTitle("Loading Recipes");
         progressDialog.show();
@@ -71,6 +71,7 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
 
         Button buttonUserUploadRecipe =  view.findViewById(R.id.buttonUserUploadRecipe);
 
+        TextView userRecipesFragmentGoBackText = view.findViewById(R.id.userRecipesFragmentGoBackText);
 
 
         buttonUserUploadRecipe.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +81,15 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
             }
         });
 
-        mAdapter = new UserRecipesAdapter(view.getContext(), mUploads);
+        userRecipesFragmentGoBackText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_userUploadRecipesFragment_to_selectWhichScreen, bundle);
+
+            }
+        });
+
+        mAdapter = new UserRecipesAdapter(view.getContext(), mUploads, bundle);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
 
@@ -110,6 +119,8 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
                 progressDialog.dismiss();
             }
         });
+
+
         return view;
     }
 
@@ -199,7 +210,6 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
                 Log.e(TAG, "Error", databaseError.toException());
             }
         });
-
     }
 
     @Override

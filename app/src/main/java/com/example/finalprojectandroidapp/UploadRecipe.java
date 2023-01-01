@@ -11,6 +11,7 @@ public class UploadRecipe {
     String recipeIngredient;
     String recipeInstructions;
     private String mKey;
+    Boolean isFavorite;
 
     //empty constructor needed (to work with firebase) - DO NOT DELETE
     public UploadRecipe() {
@@ -88,5 +89,13 @@ public class UploadRecipe {
     @Exclude
     public void setKey(String key) {
         mKey = key;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 }

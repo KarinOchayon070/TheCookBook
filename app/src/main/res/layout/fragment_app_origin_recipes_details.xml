@@ -80,7 +80,10 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="TextView" />
+
             </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
+
 </FrameLayout>

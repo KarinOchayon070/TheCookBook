@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.finalprojectandroidapp.R;
@@ -64,6 +65,15 @@ public class AppOriginRecipesFragment extends Fragment {
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setTitle("Loading Recipes");
 
+        TextView appRecipesFragmentGoBackText = view.findViewById(R.id.appRecipesFragmentGoBackText);
+
+        appRecipesFragmentGoBackText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Navigation.findNavController(view).navigate(R.id.action_userFragment_to_selectWhichScreen);
+            }
+        });
+
         //Create "appOriginRecipesClickListener" object so I can put it the adapter
         //Each recipe is identify according to it's id (in the api) - so when the user will click one of the
         //recipes - it will take him to new fragment
@@ -84,7 +94,7 @@ public class AppOriginRecipesFragment extends Fragment {
             public void didFetch(RecipesApiResponse recipesApiResponse, String msg) {
 
                 //
-                recycleView = (RecyclerView)view.findViewById(R.id.recyclerViewUserFragment);
+                recycleView = (RecyclerView)view.findViewById(R.id.recyclerViewUserFavoritesRecipesFragment);
                 recycleView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(getContext()); // new GridLayoutManager
                 recycleView.setLayoutManager(layoutManager);

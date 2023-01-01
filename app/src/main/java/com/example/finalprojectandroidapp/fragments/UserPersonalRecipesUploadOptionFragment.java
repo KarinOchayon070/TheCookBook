@@ -67,7 +67,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //The current view is the fragment where the user upload recipes images
-        View view = inflater.inflate(R.layout.fragment_user_personal_recipes, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_personal_recipes_upload_option, container, false);
 
         Bundle bundle = new Bundle();
 
