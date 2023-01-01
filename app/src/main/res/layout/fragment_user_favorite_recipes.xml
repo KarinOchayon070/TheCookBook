@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#F57427"
     tools:context=".fragments.UserFavoriteRecipesFragment">
 
     <LinearLayout
@@ -23,16 +24,26 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="#F57427"
-                app:srcCompat="@drawable/header_title" />
+                app:srcCompat="@drawable/header_title_your_favorite_recipes" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewUserFavoritesRecipesFragment"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp">
+            android:background="@drawable/backgrounddesign"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewUserFavoritesRecipesFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:padding="12dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

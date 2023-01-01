@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#F57427"
     tools:context=".fragments.AppOriginRecipesFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -25,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="#F57427"
-                app:srcCompat="@drawable/header_title" />
+                app:srcCompat="@drawable/header_title_app_origin_recipes" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,20 +55,29 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewUserFavoritesRecipesFragment"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp">
+            android:background="@color/white"
+            android:orientation="vertical">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewUserFavoritesRecipesFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:padding="12dp">
 
-        <TextView
-            android:id="@+id/appRecipesFragmentGoBackText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Go Back To Recipes Options" />
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/appRecipesFragmentGoBackText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Go Back To Recipes Options" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

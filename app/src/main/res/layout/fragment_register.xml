@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:text="Please register to continue"
+                android:text="Please Register To Continue"
                 android:textSize="14sp" />
 
             <EditText
@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Already have an account?" />
+                    android:text="Already Have An Account?" />
 
                 <TextView
                     android:id="@+id/loginTextViewRegisterFragment"

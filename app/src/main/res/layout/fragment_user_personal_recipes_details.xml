@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F57427"
     tools:context=".fragments.UserPersonalRecipesDetailsFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,88 +14,101 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/TheCookBookTitleImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F57427"
-            app:srcCompat="@drawable/header_title" />
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/backgrounddesign"
-            android:backgroundTint="@color/white">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/TheCookBookTitleImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="#F57427"
+                app:srcCompat="@drawable/header_title_user_shared_recipe" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/TextViewRecipeNameUserDetailsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Recipe name"
-                    android:textColor="#F57427"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/recipeImageUserDetailsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_margin="8dp"
-                    android:scaleType="centerCrop"
-                    tools:src="@tools:sample/avatars" />
-
-                <TextView
-                    android:id="@+id/recipeSummaryTitleUserDetailsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="Recipe summary"
-                    android:textColor="#F57427"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/recipeSummaryUserDetailsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Recipe Summary" />
-
-                <TextView
-                    android:id="@+id/recipeInstructionTitleUserDetailsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="Recipe instruction"
-                    android:textColor="#F57427"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/recipeTestUserDetailsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Recipe Instruction" />
-            </LinearLayout>
-        </ScrollView>
-
-        <TextView
-            android:id="@+id/userRecipesDetailsFragmentGoBackText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Go Back To All Users Recipes" />
+            android:layout_height="592dp"
+            android:background="@drawable/backgrounddesign"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/TextViewRecipeNameUserDetailsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Recipe name"
+                        android:textColor="#F57427"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/recipeImageUserDetailsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_margin="8dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/recipeSummaryTitleUserDetailsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="Recipe summary"
+                        android:textColor="#F57427"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/recipeSummaryUserDetailsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Recipe Summary" />
+
+                    <TextView
+                        android:id="@+id/recipeInstructionTitleUserDetailsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="Recipe instruction"
+                        android:textColor="#F57427"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/recipeTestUserDetailsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Recipe Instruction" />
+                </LinearLayout>
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/userRecipesDetailsFragmentGoBackText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Go Back To All Users Recipes" />
+        </LinearLayout>
 
     </LinearLayout>
 

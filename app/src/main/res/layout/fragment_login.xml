@@ -61,7 +61,7 @@
                 android:layout_height="1dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Please sign in to continue"
+                android:text="Please Sign In To Continue"
                 android:textSize="14sp" />
 
             <EditText
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Don't have an account?" />
+                    android:text="Don't Have An Account?" />
 
                 <TextView
                     android:id="@+id/registerTextViewLoginFragment"
