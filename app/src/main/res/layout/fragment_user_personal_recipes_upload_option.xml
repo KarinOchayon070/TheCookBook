@@ -16,13 +16,13 @@
         <ImageView
             android:id="@+id/TheCookBookTitleUserUpload"
             android:layout_width="wrap_content"
-            android:layout_height="104dp"
+            android:layout_height="110dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/header_title_upload_your_recipe" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="626dp"
             android:background="@drawable/backgrounddesign"
             android:backgroundTint="@color/white"
             android:orientation="vertical"
@@ -76,20 +76,6 @@
                         android:background="@drawable/textviewdesign"
                         android:ems="10"
                         android:hint="Recipe Instructions"
-                        android:inputType="textPersonName"
-                        android:minHeight="48dp"
-                        android:padding="12dp" />
-
-                    <EditText
-                        android:id="@+id/editTextRecipeIngredients"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/textviewdesign"
-                        android:ems="10"
-                        android:hint="Recipe Ingredients"
                         android:inputType="textPersonName"
                         android:minHeight="48dp"
                         android:padding="12dp" />

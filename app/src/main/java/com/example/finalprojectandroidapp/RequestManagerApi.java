@@ -1,14 +1,11 @@
 package com.example.finalprojectandroidapp;
 
 import android.content.Context;
-
 import com.example.finalprojectandroidapp.listeners.AppOriginRecipesDetailsListener;
 import com.example.finalprojectandroidapp.listeners.AppOriginRecipesResponseListener;
 import com.example.finalprojectandroidapp.models.RecipesApiResponse;
 import com.example.finalprojectandroidapp.models.RecipesDetailsResponse;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,6 +22,8 @@ public class RequestManagerApi{
     //Create retrofit object - to manage the api calls
     Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.spoonacular.com/").addConverterFactory(GsonConverterFactory.create()).build();
 
+
+    //Constructor
     public RequestManagerApi(Context context){
         this.context = context;
     }
@@ -53,7 +52,6 @@ public class RequestManagerApi{
         });
     }
 
-
     //Method to access the "CallRecipesDetailsFromApi" interface
     public void getRecipesDetails(AppOriginRecipesDetailsListener appOriginRecipesDetailsListener, int id){
         //Create an instance of the CallRecipesDetailsFromApi
@@ -77,7 +75,6 @@ public class RequestManagerApi{
         });
     }
 
-
     //Create an interface for the api calls (for the recipe)
     //This is for the name+image of the random recipe in the "AppOriginRecipesFragment"
     private interface CallRecipesFromApi{
@@ -94,6 +91,5 @@ public class RequestManagerApi{
         @GET("recipes/{id}/information")
         //The "RecipesDetailsResponse" model is where all the details of the recipe is stored
         Call<RecipesDetailsResponse> callRecipesDetailsResponse(@Path("id") int id, @Query("apiKey") String apiKey);
-
     }
 }

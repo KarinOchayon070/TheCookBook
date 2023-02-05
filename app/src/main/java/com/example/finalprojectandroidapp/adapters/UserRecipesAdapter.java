@@ -19,6 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.finalprojectandroidapp.R;
 import com.example.finalprojectandroidapp.UploadRecipe;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -37,6 +38,7 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     private SharedPreferences.Editor mEditor;
 
 
+
     public UserRecipesAdapter(Context context, List<UploadRecipe> uploads, Bundle mBundle) {
         this.mContext = context;
         this.mUploads = uploads;
@@ -52,6 +54,8 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_recipes_user_recipes, parent, false);
         Button favoriteBtn = view.findViewById(R.id.favoriteBtn);
         final ImageViewHolder holder = new ImageViewHolder(view);
+
+
 
         favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,21 +81,28 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                 // Add or remove the recipe from the list of favorite recipes in the database
                 DatabaseReference mDatabaseRefFavoriteRecipes = FirebaseDatabase.getInstance().getReference("Favorite Recipes");
                 String IDUser = mBundle.getString("IDUser");
-                if (mUploads.get(holder.getAdapterPosition()).isFavorite()) {
-                    Map<String, Object> children = new HashMap<>();
-                    children.put("recipeImageUrl", mUploads.get(holder.getAdapterPosition()).getRecipeImageUrl());
-                    children.put("recipeIngredient", mUploads.get(holder.getAdapterPosition()).getRecipeIngredient());
-                    children.put("recipeInstructions", mUploads.get(holder.getAdapterPosition()).getRecipeInstructions());
-                    children.put("recipeName", mUploads.get(holder.getAdapterPosition()).getRecipeName());
-                    children.put("recipeSummary", mUploads.get(holder.getAdapterPosition()).getRecipeSummary());
-                    children.put("idOfTheUserWhoUploadTheRecipe", mUploads.get(holder.getAdapterPosition()).getUserId());
-                    mDatabaseRefFavoriteRecipes.child(IDUser).child(mUploads.get(holder.getAdapterPosition()).getKey()).updateChildren(children);
-                }
-                else {
-                    mDatabaseRefFavoriteRecipes.child(IDUser).child(mUploads.get(holder.getAdapterPosition()).getKey()).removeValue();
-                }
 
+                if(IDUser != null){
+                    if (mUploads.get(holder.getAdapterPosition()).isFavorite()) {
+                        Log.d("tag_ID_User",IDUser);
+                        Map<String, Object> children = new HashMap<>();
+                        children.put("recipeImageUrl", mUploads.get(holder.getAdapterPosition()).getRecipeImageUrl());
+                        children.put("recipeInstructions", mUploads.get(holder.getAdapterPosition()).getRecipeInstructions());
+                        children.put("recipeName", mUploads.get(holder.getAdapterPosition()).getRecipeName());
+                        children.put("recipeSummary", mUploads.get(holder.getAdapterPosition()).getRecipeSummary());
+                        children.put("idOfTheUserWhoUploadTheRecipe", mUploads.get(holder.getAdapterPosition()).getUserId());
+                        mDatabaseRefFavoriteRecipes.child(IDUser).child(mUploads.get(holder.getAdapterPosition()).getKey()).updateChildren(children);
+                    }
+                    else {
+                        Log.d("tagbla2",IDUser);
+                        mDatabaseRefFavoriteRecipes.child(IDUser).child(mUploads.get(holder.getAdapterPosition()).getKey()).removeValue();
+                    }
+                }
+                else{
+                    Log.e("tag_ID_User_Null", "IDUser is null");
+                }
             }
+
 
         });
 
@@ -107,7 +118,6 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                 bundle.putString("image", mUploads.get(holder.getAdapterPosition()).getRecipeImageUrl());
                 bundle.putString("name",mUploads.get(holder.getAdapterPosition()).getRecipeName());
                 bundle.putString("summary",mUploads.get(holder.getAdapterPosition()).getRecipeSummary());
-                bundle.putString("ingredient",mUploads.get(holder.getAdapterPosition()).getRecipeIngredient());
                 bundle.putString("instructions",mUploads.get(holder.getAdapterPosition()).getRecipeInstructions());
 
 
@@ -154,9 +164,22 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,  View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
-        TextView textViewUserRecipeName, textViewUserSummary, textViewUserRecipeIngredient, textViewUserRecipeInstruction;
+        TextView textViewUserRecipeName, textViewUserSummary, textViewUserRecipeInstruction;
         ImageView imageViewUserRecipeImage;
         Button favoriteBtn;
+
+        public void deleteRecipe(int position) {
+            String recipeKey = mUploads.get(getAdapterPosition()).getKey();
+            // Delete the recipe from the "recipe image" section
+            DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("Recipe Images").child(recipeKey);
+            mDatabaseRef.removeValue();
+            // Delete the recipe from the "favorite recipes" section
+            DatabaseReference mDatabaseRefFavoriteRecipes = FirebaseDatabase.getInstance().getReference("Favorite Recipes");
+            String IDUser = mBundle.getString("IDUser");
+            if (IDUser != null) {
+                mDatabaseRefFavoriteRecipes.child(IDUser).child(recipeKey).removeValue();
+            }
+        }
 
         public ImageViewHolder(View itemView) {
 
@@ -185,21 +208,21 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
             menu.setHeaderTitle("Select Action");
 //            MenuItem doWhatever = menu.add(Menu.NONE, 1, 1, "Do whatever");
             MenuItem delete = menu.add(Menu.NONE, 1, 1, "Delete");
-
 //            doWhatever.setOnMenuItemClickListener(this);
             delete.setOnMenuItemClickListener(this);
         }
+
+
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             if (mListener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-
                     switch (item.getItemId()) {
-
                         case 1:
                             mListener.onDeleteClick(position);
+                            deleteRecipe(position);
                             return true;
                     }
                 }
@@ -209,17 +232,13 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     }
 
 
-    //What happened when the user long cilck
+    //What happened when the user long click
     public interface OnItemClickListener {
         void onItemClick(int position);
-
         void onDeleteClick(int position);
     }
-
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
-
-
 }
 

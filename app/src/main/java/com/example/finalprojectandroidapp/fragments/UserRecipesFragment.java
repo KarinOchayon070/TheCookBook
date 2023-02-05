@@ -45,7 +45,6 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
     ProgressDialog progressDialog;
 
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

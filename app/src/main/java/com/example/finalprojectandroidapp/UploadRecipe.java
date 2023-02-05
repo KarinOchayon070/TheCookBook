@@ -8,7 +8,7 @@ public class UploadRecipe {
     String userId;
     String recipeName;
     String recipeSummary;
-    String recipeIngredient;
+
     String recipeInstructions;
     private String mKey;
     Boolean isFavorite;
@@ -17,18 +17,19 @@ public class UploadRecipe {
     public UploadRecipe() {
     }
 
-    public UploadRecipe(String userId, String recipeName, String recipeSummary, String recipeIngredient, String recipeInstructions, String recipeImageUrl) {
+    public UploadRecipe(String userId, String recipeName, String recipeSummary,  String recipeInstructions, String recipeImageUrl) {
         //If the user didn't give the image a name - save it in the database as "No Name"
         //Trim is for remove the empty spaces
         if (recipeName.trim().equals("")) {
             recipeName = "No Name";
         }
         this.recipeSummary = recipeSummary;
-        this.recipeIngredient = recipeIngredient;
+
         this.recipeInstructions = recipeInstructions;
         this.userId = userId;
         this.recipeName = recipeName;
         this.recipeImageUrl = recipeImageUrl;
+        this.isFavorite = false;
 
 
     }
@@ -55,14 +56,6 @@ public class UploadRecipe {
     }
     public void setRecipeSummary(String recipeSummary) {
         this.recipeSummary = recipeSummary;
-    }
-
-    public String getRecipeIngredient() {
-        return recipeIngredient;
-    }
-
-    public void setRecipeIngredient(String recipeIngredient) {
-        this.recipeIngredient = recipeIngredient;
     }
 
     public String getRecipeInstructions() {

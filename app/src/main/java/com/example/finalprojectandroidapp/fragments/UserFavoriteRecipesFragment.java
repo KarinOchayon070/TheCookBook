@@ -34,9 +34,6 @@ public class UserFavoriteRecipesFragment extends Fragment {
     private UserFavoriteRecipesAdapter mAdapter;
     private List<UploadRecipe> mUploads;
     private Bundle mBundle;
-
-
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -103,8 +100,6 @@ public class UserFavoriteRecipesFragment extends Fragment {
 
             }
         });
-
-
         return view;
     }
 }

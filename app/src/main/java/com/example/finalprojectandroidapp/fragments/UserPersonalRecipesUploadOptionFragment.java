@@ -43,7 +43,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
     //Initial the var from the layout
 //    EditText editTextFileName;
-    EditText  editTextRecipeName, editTextRecipeSummary, editTextRecipeIngredients, editTextRecipeInstructions;
+    EditText  editTextRecipeName, editTextRecipeSummary,  editTextRecipeInstructions;
     Button chooseImage, uploadImage;
     TextView textViewShowUpload, textViewUserID;
     ImageView imageRecipe;
@@ -63,13 +63,20 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //The current view is the fragment where the user upload recipes images
         View view = inflater.inflate(R.layout.fragment_user_personal_recipes_upload_option, container, false);
 
+//        Bundle bundle = new Bundle();
+
+        String IDUser = getArguments().getString("IDUser");
+
         Bundle bundle = new Bundle();
+        bundle.putString("IDUser",IDUser);
+
 
 
         chooseImage = view.findViewById(R.id.chooseImage);
@@ -81,7 +88,6 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
         editTextRecipeName =  view.findViewById(R.id.editTextRecipeName);
         editTextRecipeSummary =  view.findViewById(R.id.editTextRecipeSummary);
-        editTextRecipeIngredients =  view.findViewById(R.id.editTextRecipeIngredients);
         editTextRecipeInstructions =  view.findViewById(R.id.editTextRecipeInstructions);
 
 
@@ -110,21 +116,18 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Upload In Progress", Toast.LENGTH_SHORT).show();
                 }
 
-                final String recipeName = editTextRecipeName.getText().toString();
-                final String recipeSummary = editTextRecipeSummary.getText().toString();
-                final String recipeIngredients = editTextRecipeIngredients.getText().toString();
-                final String recipeInstructions = editTextRecipeInstructions.getText().toString();
+                String recipeName = editTextRecipeName.getText().toString();
+                String recipeSummary = editTextRecipeSummary.getText().toString();
+                String recipeInstructions = editTextRecipeInstructions.getText().toString();
 
 
-
-                if (recipeName.isEmpty() || recipeSummary.isEmpty() || recipeIngredients.isEmpty() || recipeInstructions.isEmpty()) {
+                if (recipeName.isEmpty() || recipeSummary.isEmpty() || recipeInstructions.isEmpty()) {
                     Toast.makeText(view.getContext(), "Please Fill All Fields", Toast.LENGTH_SHORT).show();
                 }
 
                 else{
                     //If the user did pick an image - I want to upload it
-                    if (imageUri != null) {
-                        //I had to create a unique name for each of the images (otherwise it will override)
+                    if (imageUri != null) {//I had to create a unique name for each of the images (otherwise it will override)
                         //The unique name of the image is the time in milliseconds (because it changing so fast so it's unique
                         //It will look like this - Recipes Images/5989555959.png
                         StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
@@ -136,11 +139,9 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
 
                         mUploadTask = fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    //When the image is upload successfuly
+                                    //When the image is upload successfully
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
                                         //When the image is uploaded I want to set the progressbar
                                         //Here I made a short delay that the user could actually see the progressbar
                                         Handler handler = new Handler();
@@ -156,13 +157,19 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
                                         String uploadId = mDatabaseRef.push().getKey();
 
-                                        String IDUser = getArguments().getString("IDUser");
-                                        Log.d("tagiduser", IDUser);
+//                                        String IDUser = getArguments().getString("IDUser");
+//                                        Log.d("tagiduser", IDUser);
 
 
-                                        UploadRecipe uploadRecipeImage = new UploadRecipe(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(), editTextRecipeIngredients.getText().toString(), editTextRecipeInstructions.getText().toString(), recipeImage);
+
+                                        UploadRecipe uploadRecipeImage = new UploadRecipe(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(),  editTextRecipeInstructions.getText().toString(), recipeImage);
                                         mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
                                         Toast.makeText(view.getContext(), "Upload Successful", Toast.LENGTH_LONG).show();
+
+                                        // Reset the recipeName, recipeSummary, and recipeInstructions to empty strings
+                                        editTextRecipeName.setText("");
+                                        editTextRecipeSummary.setText("");
+                                        editTextRecipeInstructions.setText("");
 
 
                                         //This two lines add to the "Users" collection in real time database the image each user uploaded acorrding to his id
@@ -228,7 +235,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             imageUri = data.getData();
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-
+            Toast.makeText(getContext(), "Please Wait For The Image To Load", Toast.LENGTH_SHORT).show();
             fileReference.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

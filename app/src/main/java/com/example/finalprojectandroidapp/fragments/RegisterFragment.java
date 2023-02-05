@@ -61,8 +61,6 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -104,6 +102,11 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Please Fill All Fields", Toast.LENGTH_SHORT).show();
                 }
 
+                //For the information about the user to be saved in authentication - the password must have 6 or more characters
+                else if(password.length() < 6 || confirmPassword.length() < 6){
+                    Toast.makeText(view.getContext(), "Password Must Have 6 Characters Or More", Toast.LENGTH_SHORT).show();
+                }
+
                 //Check if the passwords are matching with each other
                 else if (!passwordRegisterFragment.getText().toString().equals(editTextTextConfirmPasswordRegisterFragment.getText().toString())) {
                     Toast.makeText(view.getContext(), "Different Passwords Have Been Entered", Toast.LENGTH_SHORT).show();
@@ -122,7 +125,7 @@ public class RegisterFragment extends Fragment {
                                 bundle.putString("IDUser", id);
                                 databaseReference.child("Users").child(id).child("fullName").setValue(fullName);
                                 databaseReference.child("Users").child(id).child("email").setValue(email);
-                                databaseReference.child("Users").child(id).child("password").setValue(password);
+//                                databaseReference.child("Users").child(id).child("password").setValue(password);
                                 //In this way, I will know how to distinguish between two types of users - user/administrator
                                 //Since there are not many administrators in the system (only me) - I manually added the option to
                                 // "isAdmin" in my database

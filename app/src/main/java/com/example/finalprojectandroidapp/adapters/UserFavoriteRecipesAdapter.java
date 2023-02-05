@@ -55,7 +55,6 @@ public class UserFavoriteRecipesAdapter extends RecyclerView.Adapter<UserFavorit
                 bundle.putString("image", mUploads.get(holder.getAdapterPosition()).getRecipeImageUrl());
                 bundle.putString("name",mUploads.get(holder.getAdapterPosition()).getRecipeName());
                 bundle.putString("summary",mUploads.get(holder.getAdapterPosition()).getRecipeSummary());
-                bundle.putString("ingredient",mUploads.get(holder.getAdapterPosition()).getRecipeIngredient());
                 bundle.putString("instructions",mUploads.get(holder.getAdapterPosition()).getRecipeInstructions());
                 Navigation.findNavController(view).navigate(R.id.action_userFavoriteRecipesFragment_to_userPersonalRecipesDetailsFragment, bundle);
             }
