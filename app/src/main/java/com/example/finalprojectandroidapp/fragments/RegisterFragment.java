@@ -125,6 +125,7 @@ public class RegisterFragment extends Fragment {
                                 bundle.putString("IDUser", id);
                                 databaseReference.child("Users").child(id).child("fullName").setValue(fullName);
                                 databaseReference.child("Users").child(id).child("email").setValue(email);
+                                databaseReference.child("Users").child(id).child("id").setValue(id);
 //                                databaseReference.child("Users").child(id).child("password").setValue(password);
                                 //In this way, I will know how to distinguish between two types of users - user/administrator
                                 //Since there are not many administrators in the system (only me) - I manually added the option to

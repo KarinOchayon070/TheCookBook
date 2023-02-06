@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/welcomeImageViewLoginFragment"
                 android:layout_width="400dp"
-                android:layout_height="400dp"
+                android:layout_height="309dp"
                 android:layout_gravity="start|fill|fill_horizontal"
                 android:layout_weight="1"
                 android:background="#F57427"
@@ -67,24 +67,37 @@
             <EditText
                 android:id="@+id/editTextTextIDLoginFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_height="2dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
                 android:drawableLeft="@drawable/icon_id"
-                android:drawablePadding="2dp"
+                android:drawablePadding="13dp"
                 android:drawableTint="#F57427"
                 android:ems="10"
                 android:hint="ID"
                 android:inputType="numberDecimal"
-                android:padding="10dp"
-                android:textColorHighlight="#F57427"
-                android:textColorLink="#F57427" />
+                android:padding="2dp" />
+
+            <EditText
+                android:id="@+id/editTextTextEmailLoginFragment"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/textviewdesign"
+                android:drawableLeft="@android:drawable/ic_dialog_email"
+                android:drawablePadding="13dp"
+                android:drawableTint="#F57427"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="2dp" />
 
             <EditText
                 android:id="@+id/editTextTextPasswordLoginFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="4dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
@@ -94,14 +107,14 @@
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="10dp"
+                android:padding="2dp"
                 android:textColorHighlight="#F57427"
                 android:textColorLink="#F57427" />
 
             <Button
                 android:id="@+id/loginButtonLoginFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="11dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttondesign"

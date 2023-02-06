@@ -35,6 +35,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
@@ -160,9 +163,11 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 //                                        String IDUser = getArguments().getString("IDUser");
 //                                        Log.d("tagiduser", IDUser);
 
+                                        Map<String, Boolean> favorite = new HashMap<>();
 
 
-                                        UploadRecipe uploadRecipeImage = new UploadRecipe(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(),  editTextRecipeInstructions.getText().toString(), recipeImage);
+
+                                        UploadRecipe uploadRecipeImage = new UploadRecipe(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(),  editTextRecipeInstructions.getText().toString(), recipeImage, favorite);
                                         mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
                                         Toast.makeText(view.getContext(), "Upload Successful", Toast.LENGTH_LONG).show();
 
@@ -173,8 +178,8 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
 
                                         //This two lines add to the "Users" collection in real time database the image each user uploaded acorrding to his id
-                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
-                                        databaseReference.child("Users").child(IDUser).child(uploadId).setValue(uploadRecipeImage);
+//                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://thecookbook-fcc12-default-rtdb.firebaseio.com/");
+//                                        databaseReference.child("Users").child(IDUser).child(uploadId).setValue(uploadRecipeImage);
                                     }
                                 //When the image is not upload successfully
                                 }).addOnFailureListener(new OnFailureListener() {

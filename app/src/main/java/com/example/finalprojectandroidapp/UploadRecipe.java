@@ -2,6 +2,9 @@ package com.example.finalprojectandroidapp;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UploadRecipe {
 
     String recipeImageUrl;
@@ -11,13 +14,13 @@ public class UploadRecipe {
 
     String recipeInstructions;
     private String mKey;
-    Boolean isFavorite;
+    Map<String, Boolean> favorite;
 
     //empty constructor needed (to work with firebase) - DO NOT DELETE
     public UploadRecipe() {
     }
 
-    public UploadRecipe(String userId, String recipeName, String recipeSummary,  String recipeInstructions, String recipeImageUrl) {
+    public UploadRecipe(String userId, String recipeName, String recipeSummary,  String recipeInstructions, String recipeImageUrl, Map<String, Boolean> favorite) {
         //If the user didn't give the image a name - save it in the database as "No Name"
         //Trim is for remove the empty spaces
         if (recipeName.trim().equals("")) {
@@ -29,7 +32,8 @@ public class UploadRecipe {
         this.userId = userId;
         this.recipeName = recipeName;
         this.recipeImageUrl = recipeImageUrl;
-        this.isFavorite = false;
+        this.favorite = new HashMap<>();
+
 
 
     }
@@ -84,11 +88,11 @@ public class UploadRecipe {
         mKey = key;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
+    public Map<String, Boolean> getFavorite() {
+        return favorite;
     }
 
-    public void setIsFavorite(boolean isFavorite) {
-        this.isFavorite = isFavorite;
+    public void setFavorite(Map<String, Boolean> favorite) {
+        this.favorite = favorite;
     }
 }

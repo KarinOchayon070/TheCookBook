@@ -1,5 +1,7 @@
 package com.example.finalprojectandroidapp.adapters;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.Navigation;
@@ -20,8 +25,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.finalprojectandroidapp.R;
 import com.example.finalprojectandroidapp.UploadRecipe;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.List;
@@ -33,9 +41,13 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     Context mContext;
     List<UploadRecipe> mUploads;
     private OnItemClickListener mListener;
-    private Bundle mBundle;
+    private Bundle mBundle, myBunble;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+    private Map<String, Boolean> favorite;
+//    String IDUser = mBundle.getString("IDUser");
+
+
 
 
 
@@ -43,6 +55,10 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
         this.mContext = context;
         this.mUploads = uploads;
         this.mBundle = mBundle;
+        this.myBunble = mBundle;
+        this.favorite = new HashMap<>();
+
+
         mSharedPreferences = context.getSharedPreferences("favorite_button_state", Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
     }
@@ -56,35 +72,35 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
         final ImageViewHolder holder = new ImageViewHolder(view);
 
 
-
         favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // Toggle the value of isFavorite for the corresponding UploadRecipe object
-                mUploads.get(holder.getAdapterPosition()).setIsFavorite(!mUploads.get(holder.getAdapterPosition()).isFavorite());
+                String IDUser = mBundle.getString("IDUser");
 
-                // Update shared preferences
-                if (mUploads.get(holder.getAdapterPosition()).isFavorite()) {
-                    mEditor.putBoolean(mUploads.get(holder.getAdapterPosition()).getKey(), true);
-                } else {
-                    mEditor.putBoolean(mUploads.get(holder.getAdapterPosition()).getKey(), false);
+
+                // Update the favorite state for the corresponding UploadRecipe object
+                Map<String, Boolean> favorite = mUploads.get(holder.getAdapterPosition()).getFavorite();
+                if (favorite == null) {
+                    favorite = new HashMap<>();
                 }
-                mEditor.apply();
+                favorite.put(IDUser, !favorite.containsKey(IDUser));
+                mUploads.get(holder.getAdapterPosition()).setFavorite(favorite);
 
                 // Update the background of the button
-                if (mUploads.get(holder.getAdapterPosition()).isFavorite()) {
+                if (favorite.containsKey(IDUser)) {
                     favoriteBtn.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_orange_24dp));
                 } else {
                     favoriteBtn.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_baseline_favorite_border_24));
                 }
+
                 // Add or remove the recipe from the list of favorite recipes in the database
                 DatabaseReference mDatabaseRefFavoriteRecipes = FirebaseDatabase.getInstance().getReference("Favorite Recipes");
-                String IDUser = mBundle.getString("IDUser");
+                DatabaseReference mDatabaseAllRecipes = FirebaseDatabase.getInstance().getReference("Recipes Images");
 
-                if(IDUser != null){
-                    if (mUploads.get(holder.getAdapterPosition()).isFavorite()) {
-                        Log.d("tag_ID_User",IDUser);
+                if (IDUser != null) {
+                    if (favorite.containsKey(IDUser)) {
+                        Log.d("tag_ID_User", IDUser);
                         Map<String, Object> children = new HashMap<>();
                         children.put("recipeImageUrl", mUploads.get(holder.getAdapterPosition()).getRecipeImageUrl());
                         children.put("recipeInstructions", mUploads.get(holder.getAdapterPosition()).getRecipeInstructions());
@@ -92,18 +108,16 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                         children.put("recipeSummary", mUploads.get(holder.getAdapterPosition()).getRecipeSummary());
                         children.put("idOfTheUserWhoUploadTheRecipe", mUploads.get(holder.getAdapterPosition()).getUserId());
                         mDatabaseRefFavoriteRecipes.child(IDUser).child(mUploads.get(holder.getAdapterPosition()).getKey()).updateChildren(children);
-                    }
-                    else {
-                        Log.d("tagbla2",IDUser);
+                        mDatabaseAllRecipes.child(mUploads.get(holder.getAdapterPosition()).getKey()).child("favorite").setValue(favorite);
+                    } else {
+                        Log.d("tagbla2", IDUser);
                         mDatabaseRefFavoriteRecipes.child(IDUser).child(mUploads.get(holder.getAdapterPosition()).getKey()).removeValue();
+                        mDatabaseAllRecipes.child(mUploads.get(holder.getAdapterPosition()).getKey()).child("favorite").setValue(favorite);
                     }
-                }
-                else{
+                } else {
                     Log.e("tag_ID_User_Null", "IDUser is null");
                 }
             }
-
-
         });
 
 
@@ -131,6 +145,8 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
 
+
+
         UploadRecipe uploadCurrent = mUploads.get(position);
         String recipeName = uploadCurrent.getRecipeName();
         String recipeImage = uploadCurrent.getRecipeImageUrl();
@@ -142,16 +158,37 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                 .centerCrop()
                 .into(holder.imageViewUserRecipeImage);
 
-        SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences("favorite_button_state", Context.MODE_PRIVATE);
-        boolean isFavorite = sharedPreferences.getBoolean(uploadCurrent.getKey(), false);
-        uploadCurrent.setIsFavorite(isFavorite);
 
-        // Update the background of the button
-        if (uploadCurrent.isFavorite()) {
+        SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences("favorite_button_state", Context.MODE_PRIVATE);
+
+        String id = myBunble.getString("IDUser");
+        Log.d("myFucking", id);
+
+        boolean isFavorite = false;
+
+        if(uploadCurrent.getFavorite() != null){
+            if (uploadCurrent.getFavorite().containsKey(id)) {
+                isFavorite = uploadCurrent.getFavorite().get(id);
+            }
+        }
+
+
+        if (isFavorite) {
             holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_favorite_orange_24dp));
         } else {
             holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_baseline_favorite_border_24));
         }
+
+
+//        boolean isFavorite = sharedPreferences.getBoolean(uploadCurrent.getKey(), false);
+//        uploadCurrent.setIsFavorite(isFavorite);
+//
+//        // Update the background of the button
+//        if (uploadCurrent.isFavorite()) {
+//            holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_favorite_orange_24dp));
+//        } else {
+//            holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_baseline_favorite_border_24));
+//        }
 
     }
 
@@ -176,9 +213,22 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
             // Delete the recipe from the "favorite recipes" section
             DatabaseReference mDatabaseRefFavoriteRecipes = FirebaseDatabase.getInstance().getReference("Favorite Recipes");
             String IDUser = mBundle.getString("IDUser");
-            if (IDUser != null) {
-                mDatabaseRefFavoriteRecipes.child(IDUser).child(recipeKey).removeValue();
-            }
+            Log.d("blabla", IDUser);
+            DatabaseReference mDatabaseRefUsers = FirebaseDatabase.getInstance().getReference("Users");
+            mDatabaseRefUsers.child(IDUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.hasChild("isAdmin") && snapshot.child("isAdmin").getValue(String.class).equals("1")) {
+                        mDatabaseRefFavoriteRecipes.child(IDUser).child(recipeKey).removeValue();
+                    } else {
+                        Log.d("blabla2", IDUser);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
         public ImageViewHolder(View itemView) {
