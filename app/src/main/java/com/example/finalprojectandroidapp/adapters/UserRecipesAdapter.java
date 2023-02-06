@@ -45,9 +45,6 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private Map<String, Boolean> favorite;
-//    String IDUser = mBundle.getString("IDUser");
-
-
 
 
 
@@ -171,25 +168,11 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                 isFavorite = uploadCurrent.getFavorite().get(id);
             }
         }
-
-
         if (isFavorite) {
             holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_favorite_orange_24dp));
         } else {
             holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_baseline_favorite_border_24));
         }
-
-
-//        boolean isFavorite = sharedPreferences.getBoolean(uploadCurrent.getKey(), false);
-//        uploadCurrent.setIsFavorite(isFavorite);
-//
-//        // Update the background of the button
-//        if (uploadCurrent.isFavorite()) {
-//            holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_favorite_orange_24dp));
-//        } else {
-//            holder.favoriteBtn.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_baseline_favorite_border_24));
-//        }
-
     }
 
 
@@ -213,13 +196,14 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
             // Delete the recipe from the "favorite recipes" section
             DatabaseReference mDatabaseRefFavoriteRecipes = FirebaseDatabase.getInstance().getReference("Favorite Recipes");
             String IDUser = mBundle.getString("IDUser");
-            Log.d("blabla", IDUser);
             DatabaseReference mDatabaseRefUsers = FirebaseDatabase.getInstance().getReference("Users");
+            DatabaseReference mDatabaseRecipesKeyFavorite = FirebaseDatabase.getInstance().getReference("Recipe Images").child(recipeKey).child("favorite");
             mDatabaseRefUsers.child(IDUser).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.hasChild("isAdmin") && snapshot.child("isAdmin").getValue(String.class).equals("1")) {
+                    if (snapshot.hasChild("isAdmin")) {
                         mDatabaseRefFavoriteRecipes.child(IDUser).child(recipeKey).removeValue();
+                        //mDatabaseRecipesKeyFavorite.child(IDUser).removeValue();
                     } else {
                         Log.d("blabla2", IDUser);
                     }

@@ -63,7 +63,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_weight="1"
                 android:text="Please Register To Continue"
-                android:textSize="14sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editTextFullNameRegisterFragment"
@@ -72,8 +72,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
-                android:drawableLeft="@drawable/full_name_icon"
-                android:drawablePadding="2dp"
+                android:drawableLeft="@drawable/full_name_icon_web"
+                android:drawablePadding="13dp"
                 android:drawableTint="#F57427"
                 android:ems="10"
                 android:hint="Full Name"
@@ -89,8 +89,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
-                android:drawableLeft="@drawable/mail_icon"
-                android:drawablePadding="2dp"
+                android:drawableLeft="@drawable/mail_icon_web"
+                android:drawablePadding="13dp"
                 android:drawableTint="#F57427"
                 android:ems="10"
                 android:hint="Email"
@@ -106,8 +106,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
-                android:drawableLeft="@drawable/icon_id"
-                android:drawablePadding="2dp"
+                android:drawableLeft="@drawable/id_icon_web_working"
+                android:drawablePadding="13dp"
                 android:drawableTint="#F57427"
                 android:ems="10"
                 android:hint="ID"

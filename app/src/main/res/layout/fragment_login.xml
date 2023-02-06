@@ -48,7 +48,7 @@
             <TextView
                 android:id="@+id/loginTextViewLoginFragment"
                 android:layout_width="150dp"
-                android:layout_height="44dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
                 android:text="Login"
                 android:textColor="#F57427"
@@ -58,11 +58,11 @@
             <TextView
                 android:id="@+id/loginInstructionTextViewLoginFragment"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="Please Sign In To Continue"
-                android:textSize="14sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editTextTextIDLoginFragment"
@@ -71,13 +71,13 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
-                android:drawableLeft="@drawable/icon_id"
+                android:drawableLeft="@drawable/id_icon_web_working"
                 android:drawablePadding="13dp"
                 android:drawableTint="#F57427"
                 android:ems="10"
                 android:hint="ID"
                 android:inputType="numberDecimal"
-                android:padding="2dp" />
+                android:padding="10dp" />
 
             <EditText
                 android:id="@+id/editTextTextEmailLoginFragment"
@@ -86,13 +86,13 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/textviewdesign"
-                android:drawableLeft="@android:drawable/ic_dialog_email"
+                android:drawableLeft="@drawable/mail_icon_web"
                 android:drawablePadding="13dp"
                 android:drawableTint="#F57427"
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:padding="2dp" />
+                android:padding="10dp" />
 
             <EditText
                 android:id="@+id/editTextTextPasswordLoginFragment"
@@ -107,7 +107,7 @@
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="2dp"
+                android:padding="10dp"
                 android:textColorHighlight="#F57427"
                 android:textColorLink="#F57427" />
 
@@ -120,6 +120,7 @@
                 android:background="@drawable/buttondesign"
                 android:fontFamily="sans-serif-medium"
                 android:onClick="funcButtonLogin"
+                android:padding="10dp"
                 android:text="LOGIN" />
 
             <LinearLayout

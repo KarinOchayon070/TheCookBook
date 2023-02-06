@@ -80,7 +80,7 @@ public class LoginFragment extends Fragment {
                 final String email = editTextTextEmailLoginFragment.getText().toString();
 
                 //Check if the user fill all the fields before sending data to firebase
-                if (email.isEmpty() || password.isEmpty()) {
+                if (email.isEmpty() || password.isEmpty() || id.isEmpty()) {
                     Toast.makeText(view.getContext(), "Please Fill All Fields", Toast.LENGTH_SHORT).show();
                 } else {
                     databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -136,5 +136,4 @@ public class LoginFragment extends Fragment {
         });
         return view;
     }
-
 }
