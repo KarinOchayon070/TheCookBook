@@ -5,6 +5,8 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
+//This is the "UploadRecipes" class. When a user uploads his own recipe - an instance of this class is created and uploaded to FireBase
+
 public class UploadRecipe {
 
     //Initial

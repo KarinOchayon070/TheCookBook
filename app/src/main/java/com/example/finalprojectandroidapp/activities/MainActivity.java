@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import com.example.finalprojectandroidapp.R;
 
+//Splash screen
+
 public class MainActivity extends AppCompatActivity {
 
     Handler h = new Handler();

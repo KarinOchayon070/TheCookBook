@@ -41,24 +41,19 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     //Initial
-    EditText  editTextRecipeName, editTextRecipeSummary,  editTextRecipeInstructions;
+    EditText editTextRecipeName, editTextRecipeSummary,  editTextRecipeInstructions;
     Button chooseImage, uploadImage;
-    TextView textViewShowUpload, textViewUserID;
+    TextView textViewShowUpload;
     ImageView imageRecipe;
     ProgressBar progressBar;
-
     //This is the uri which will point to the image so I can show it in the imageView and upload it to firebase
     Uri imageUri;
-
     //Initial the reference to database
-    private StorageReference mStorageRef;     //This one is for the storage database
+    private StorageReference mStorageRef;     //This one is for the storage database  (for the images)
     private DatabaseReference mDatabaseRef;  //This one is for the real time database
-
     private StorageTask mUploadTask;
-
     //This will use me to the url of the image
     String recipeImage = "";
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -15,12 +15,26 @@ import com.example.finalprojectandroidapp.models.Recipe;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
+
+//  The purpose of the recyclerView is instead of loading all the objects from scratch, it loads only the objects currently on the screen.
+//  They scroll down the screen, get thrown in the trash. This saves a lot of memory.
+//        It has several important functions -
+//        1. getItemCount = returns how many objects there are.
+//        2. onBindViewHolder = the most important function, it is called every time the user scrolls the screen and it is necessary to create new objects.
+//        3. onCreateViewHolder = a function that creates the layout that includes View objects and feeds the viewHolder object.
+
+//   So why do you need the adapter?
+//        We extracted information from the API and created an array of this information (recipesList).
+//        This array will be sent into the adapter, the adapter will disassemble the array and create lists - it builds a cardView and then throws it to the recyclerView.
+
 public class RecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder>{
 
+    //Initial
     Context context;
     List<Recipe> recipesList;
     AppOriginRecipesClickListener appOriginRecipesClickListener;
 
+    //Constructor
     public RecipesAdapter(Context context, List<Recipe> recipesList, AppOriginRecipesClickListener appOriginRecipesClickListener){
         this.context = context;
         this.recipesList = recipesList;

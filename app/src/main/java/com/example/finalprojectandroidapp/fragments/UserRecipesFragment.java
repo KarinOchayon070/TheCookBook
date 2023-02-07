@@ -124,16 +124,15 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
         Bundle bundle = new Bundle();
         bundle.putString("IDUser", IDUser);
 
+        //Specific recipe
+        UploadRecipe selectedItem = mUploads.get(position);
+
         //The selected key is the unique id of each recipe that save id the firebase
         //The unique id of each recipe saved as a child of "Images Recipes"
-        UploadRecipe selectedItem = mUploads.get(position);
         final String selectedKey = selectedItem.getKey();
 
         StorageReference imageRef = mStorage.getReferenceFromUrl(selectedItem.getRecipeImageUrl());
-
-        //Get the url to the current user
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(IDUser);
-
         DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("Recipes Images").child(selectedKey);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {

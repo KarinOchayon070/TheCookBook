@@ -43,11 +43,9 @@ public class AppOriginRecipesFragment extends Fragment {
     List<String> tags = new ArrayList<>();
     SearchView searchView;
 
-
     public AppOriginRecipesFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +80,6 @@ public class AppOriginRecipesFragment extends Fragment {
                 recipesAdapter = new RecipesAdapter(view.getContext(), recipesApiResponse.recipes, appOriginRecipesClickListener);
                 recycleView.setAdapter(recipesAdapter);
                 progressDialog.dismiss();
-
             }
             @Override
             public void didError(String msg) {
@@ -99,13 +96,11 @@ public class AppOriginRecipesFragment extends Fragment {
                 requestManagerApi.getRecipes(recipeResponseListener, tags);
                 progressDialog.show();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         };
-
         //This lines take care of the spinner
         //I created two layout files (spinner_text, spinner_inner_text) that styles how to spinner looks.
         spinner = view.findViewById(R.id.spinnerTagsUserRecipes);
@@ -125,7 +120,6 @@ public class AppOriginRecipesFragment extends Fragment {
                 progressDialog.show();
                 return true;
             }
-            //I didn't change anything here
             @Override
             public boolean onQueryTextChange(String s) {
                 return false;
