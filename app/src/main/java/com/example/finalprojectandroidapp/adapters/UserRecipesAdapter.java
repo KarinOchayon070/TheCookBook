@@ -109,7 +109,7 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                     } else {
                         Log.d("tagbla2", IDUser);
                         mDatabaseRefFavoriteRecipes.child(IDUser).child(mUploads.get(holder.getAdapterPosition()).getKey()).removeValue();
-                        mDatabaseAllRecipes.child(mUploads.get(holder.getAdapterPosition()).getKey()).child("favorite").setValue(favorite);
+                        mDatabaseAllRecipes.child(mUploads.get(holder.getAdapterPosition()).getKey()).child("favoriteBy").setValue(favorite);
                     }
                 } else {
                     Log.e("tag_ID_User_Null", "IDUser is null");
@@ -202,8 +202,20 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.hasChild("isAdmin")) {
-                        mDatabaseRefFavoriteRecipes.child(IDUser).child(recipeKey).removeValue();
-                        //mDatabaseRecipesKeyFavorite.child(IDUser).removeValue();
+                        mDatabaseRefFavoriteRecipes.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                    if (userSnapshot.hasChild(recipeKey)) {
+                                        mDatabaseRefFavoriteRecipes.child(userSnapshot.getKey()).child(recipeKey).removeValue();
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     } else {
                         Log.d("blabla2", IDUser);
                     }

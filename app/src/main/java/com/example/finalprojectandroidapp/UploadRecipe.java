@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class UploadRecipe {
 
+    //Initial
     String recipeImageUrl;
     String userId;
     String recipeName;
     String recipeSummary;
-
     String recipeInstructions;
     private String mKey;
     Map<String, Boolean> favorite;
@@ -27,30 +27,23 @@ public class UploadRecipe {
             recipeName = "No Name";
         }
         this.recipeSummary = recipeSummary;
-
         this.recipeInstructions = recipeInstructions;
         this.userId = userId;
         this.recipeName = recipeName;
         this.recipeImageUrl = recipeImageUrl;
         this.favorite = new HashMap<>();
-
-
-
     }
 
     public String getUserId() {
         return userId;
     }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-
     public String getRecipeName() {
         return recipeName;
     }
-
     public void setRecipeName(String recipeName) {
         this.recipeName = recipeName;
     }
@@ -65,7 +58,6 @@ public class UploadRecipe {
     public String getRecipeInstructions() {
         return recipeInstructions;
     }
-
     public void setRecipeInstructions(String recipeInstructions) {
         this.recipeInstructions = recipeInstructions;
     }
@@ -73,7 +65,6 @@ public class UploadRecipe {
     public String getRecipeImageUrl() {
         return recipeImageUrl;
     }
-
     public void setRecipeImageUrl(String recipeImageUrl) {
         this.recipeImageUrl = recipeImageUrl;
     }
@@ -82,7 +73,6 @@ public class UploadRecipe {
     public String getKey() {
         return mKey;
     }
-
     @Exclude
     public void setKey(String key) {
         mKey = key;
@@ -91,7 +81,6 @@ public class UploadRecipe {
     public Map<String, Boolean> getFavorite() {
         return favorite;
     }
-
     public void setFavorite(Map<String, Boolean> favorite) {
         this.favorite = favorite;
     }

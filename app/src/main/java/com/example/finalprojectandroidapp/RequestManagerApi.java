@@ -22,7 +22,6 @@ public class RequestManagerApi{
     //Create retrofit object - to manage the api calls
     Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.spoonacular.com/").addConverterFactory(GsonConverterFactory.create()).build();
 
-
     //Constructor
     public RequestManagerApi(Context context){
         this.context = context;

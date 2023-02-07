@@ -1,47 +1,23 @@
 package com.example.finalprojectandroidapp.fragments;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.example.finalprojectandroidapp.R;
-
-import org.checkerframework.checker.units.qual.C;
 
 public class SelectWhichScreenFragment extends Fragment {
 
-    private String mParam;
-    private static final String ARG_PARAM = "param1";
-
-
-    public static SelectWhichScreenFragment newInstance(String userId) {
-        SelectWhichScreenFragment fragment = new SelectWhichScreenFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM,userId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam = getArguments().getString(ARG_PARAM);
-        }
-    }
-
+    //Initial
+    Button AppOriginRecipesBtn, UsersSharedRecipesBtn, YourFavoriteRecipesBtn;
 
     public SelectWhichScreenFragment() {
         // Required empty public constructor
     }
-
-    Button AppOriginRecipesBtn, UsersSharedRecipesBtn, YourFavoriteRecipesBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,13 +30,14 @@ public class SelectWhichScreenFragment extends Fragment {
         UsersSharedRecipesBtn = view.findViewById(R.id.UsersSharedRecipesBtn);
         YourFavoriteRecipesBtn = view.findViewById(R.id.YourFavoriteRecipesBtn);
 
+        //This is the id bundle - We get the user's ID from the previous fragment we were in
+        //and transfer it to the next fragment we move to
         String IDUser = getArguments().getString("IDUser");
-        Log.d("tagLetsTest", IDUser);
-
+        Log.d("TagIdUserSelectWhichFragments", IDUser);
         Bundle bundle = new Bundle();
         bundle.putString("IDUser", IDUser);
 
-
+        //Moving to the app origin recipes fragment (the recipes from the API)
         AppOriginRecipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +45,7 @@ public class SelectWhichScreenFragment extends Fragment {
             }
         });
 
+        //Moving to the users recipes fragment (from there the user can upload recipes as well)
         UsersSharedRecipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,14 +53,13 @@ public class SelectWhichScreenFragment extends Fragment {
             }
         });
 
+        //Moving to the users favorite recipes fragment
         YourFavoriteRecipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_selectWhichScreen_to_userFavoriteRecipesFragment, bundle);
             }
         });
-
         return view;
     }
-
 }

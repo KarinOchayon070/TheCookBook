@@ -40,7 +40,6 @@ public class UserFavoriteRecipesAdapter extends RecyclerView.Adapter<UserFavorit
         this.mUploads = uploads;
     }
 
-
     public FavoriteRecipesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_recipes_user_favorite, parent, false);
@@ -73,7 +72,6 @@ public class UserFavoriteRecipesAdapter extends RecyclerView.Adapter<UserFavorit
         String recipeName = uploadCurrent.getRecipeName();
         String recipeImageUrl = uploadCurrent.getRecipeImageUrl();
 
-
         holder.textViewUserFavoriteRecipeName.setText(recipeName);
 
         Picasso.get()
@@ -82,9 +80,6 @@ public class UserFavoriteRecipesAdapter extends RecyclerView.Adapter<UserFavorit
                 .fit()
                 .centerCrop()
                 .into(image);
-
-
-
     }
 
     @Override
@@ -92,9 +87,9 @@ public class UserFavoriteRecipesAdapter extends RecyclerView.Adapter<UserFavorit
         return mUploads.size();
     }
 
-
     public static class FavoriteRecipesViewHolder extends RecyclerView.ViewHolder {
 
+        //Initial
         TextView textViewUserFavoriteRecipeName;
         ImageView imageViewUserFavoriteRecipeImage;
         CardView cardViewUserFavoriteRecipes;

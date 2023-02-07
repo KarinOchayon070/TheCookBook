@@ -61,9 +61,9 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder>{
     }
 }
 
-
 class RecipeViewHolder extends RecyclerView.ViewHolder{
 
+    //Initial
     CardView cardViewUserFragment;
     TextView recipeNameTitleUserFragment, textViewTimeInMinUserFragment, textViewNumOfServingUserFragment;
     ImageView imageviewRecipeUserFragment;
