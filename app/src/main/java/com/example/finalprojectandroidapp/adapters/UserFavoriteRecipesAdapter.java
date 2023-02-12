@@ -101,10 +101,6 @@ public class UserFavoriteRecipesAdapter extends RecyclerView.Adapter<UserFavorit
             imageViewUserFavoriteRecipeImage = itemView.findViewById(R.id.imageViewUserFavoriteRecipeImage);
             cardViewUserFavoriteRecipes = itemView.findViewById(R.id.cardViewUserFavoriteRecipes);
             favoriteBtn = itemView.findViewById(R.id.favoriteBtn);
-
         }
     }
 }
-
-
-

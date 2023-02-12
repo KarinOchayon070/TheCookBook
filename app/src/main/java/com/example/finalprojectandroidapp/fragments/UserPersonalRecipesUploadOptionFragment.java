@@ -34,10 +34,16 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 import java.util.Map;
 
+// This link helped me a lot to upload image to fireBase - https://www.youtube.com/watch?v=MfCiiTEwt3g&t=259s&ab_channel=CodinginFlow
+
+// This code allows the user to upload a recipe to Firebase Database (and Storage for the image recipe).
+// The user can select an image using the "chooseImage" button and then upload the image along with the recipe name, summary, and instructions using the "uploadImage" button.
+// The uploaded image will be stored in Firebase Storage under the folder "Recipes Images" and the recipe information will be stored in the Firebase Realtime Database under the same folder.
+// The progress of the upload task is displayed using a ProgressBar. Error handling is implemented to display Toast messages in case of failure during the upload process.
 
 public class UserPersonalRecipesUploadOptionFragment extends Fragment {
 
-    //I will use this later to identify the image request
+    //I will use this later to identify the image request. Any positive number will be fine in here
     private static final int PICK_IMAGE_REQUEST = 1;
 
     //Initial
@@ -46,7 +52,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
     TextView textViewShowUpload;
     ImageView imageRecipe;
     ProgressBar progressBar;
-    //This is the uri which will point to the image so I can show it in the imageView and upload it to firebase
+    //This is the uri which will point to the image so I can show it in the imageView and upload it to firebase storage
     Uri imageUri;
     //Initial the reference to database
     private StorageReference mStorageRef;     //This one is for the storage database  (for the images)
@@ -77,7 +83,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
         editTextRecipeInstructions =  view.findViewById(R.id.editTextRecipeInstructions);
 
         //Create object of DatabaseReference class to access firebase's database
-        //The name of the collections will be "Recipes Images"
+        //The name of the folders will be "Recipes Images"
         mStorageRef = FirebaseStorage.getInstance().getReference("Recipes Images");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Recipes Images");
 
@@ -121,7 +127,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
                                     //When the image is upload successfully
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        //When the image is uploaded I want to set the progressbar
+                                        //When the image is uploaded I want to set the progressbar to zero
                                         //Here I made a short delay that the user could actually see the progressbar
                                         Handler handler = new Handler();
                                         handler.postDelayed(new Runnable() {
@@ -130,13 +136,13 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
                                                 progressBar.setProgress(0);
                                                 imageRecipe.setImageResource(R.drawable.orange_border);
                                             }
-                                        }, 500);
+                                        }, 5000);
                                         //When the image is upload successfully I want to let the user know
                                         //The id of the recipe
                                         String uploadId = mDatabaseRef.push().getKey();
                                         //This favorite map is for the "favoriteBy" map in the firebase
                                         Map<String, Boolean> favorite = new HashMap<>();
-                                        //Create new object of the "UploadRecipe"
+                                        //Create new object of the "UploadRecipe" and upload it to realtime database
                                         UploadRecipe uploadRecipeImage = new UploadRecipe(IDUser, editTextRecipeName.getText().toString(), editTextRecipeSummary.getText().toString(),  editTextRecipeInstructions.getText().toString(), recipeImage, favorite);
                                         //Now the key of each recipe is the recipe key I declare above, the children are the userId, recipe name, atc...
                                         mDatabaseRef.child(uploadId).setValue(uploadRecipeImage);
@@ -184,6 +190,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
     //For example - for a jepg image, the function will return jpg
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContext().getContentResolver();
+        //A MIME type is a string sent along with a file indicating the type of the file
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
@@ -191,8 +198,14 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
     //This function will be called when the user press on the button "choose image"
     private void openImageChooser(){
         Intent intent = new Intent();
+        //Only see images
         intent.setType("image/*");
+        //The intent's action is set to Intent.ACTION_GET_CONTENT which specifies that the activity should return an image
         intent.setAction(Intent.ACTION_GET_CONTENT);
+        //In this case, the startActivityForResult method is used to start an activity to select an image, and the request code
+        //PICK_IMAGE_REQUEST is used to identify the result of that activity when it returns. When the user selects an image,
+        //the result is returned to the calling activity, and the request code is used to match the result to the appropriate
+        //activity that started it.
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
@@ -200,6 +213,7 @@ public class UserPersonalRecipesUploadOptionFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            //The imageUri var contain the image uri the user picked (uri will point the image position)
             imageUri = data.getData();
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
             Toast.makeText(getContext(), "Please Wait For The Image To Load", Toast.LENGTH_SHORT).show();

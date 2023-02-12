@@ -39,7 +39,8 @@ import java.util.Map;
 
 //   So why do you need the adapter?
 //        We extracted information from the API and created an array of this information (mUploads).
-//        This array will be sent into the adapter, the adapter will disassemble the array and create lists - it builds a cardView and then throws it to the recyclerView.
+//        This array will be sent into the adapter, the adapter will disassemble the array and create lists - it builds a cardView and then throws it to the
+//        recyclerView.
 
 public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.ImageViewHolder> {
 
@@ -75,10 +76,12 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
             @Override
             public void onClick(View view) {
 
-                //Getting the user is using bundle
+                //Getting the user is using bundle (Retrieve the ID of the user who is using the app)
                 String IDUser = mBundle.getString("IDUser");
 
-                // Update the favorite state for the corresponding UploadRecipe object
+                //Update the favorite state for the corresponding UploadRecipe object
+                //(Get the current "favorite" state of the recipe from the mUploads list and update it based on the
+                // ID of the user)
                 Map<String, Boolean> favorite = mUploads.get(holder.getAdapterPosition()).getFavorite();
                 if (favorite == null) {
                     favorite = new HashMap<>();
@@ -134,7 +137,6 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
             }
         });
         return holder;
-
     }
 
     @Override
@@ -224,14 +226,12 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
         }
 
         public ImageViewHolder(View itemView) {
-
             super(itemView);
             textViewUserRecipeName = itemView.findViewById(R.id.textViewUserRecipeName);
             imageViewUserRecipeImage = itemView.findViewById(R.id.imageViewUserRecipeImage);
             favoriteBtn = itemView.findViewById(R.id.favoriteBtn);
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
-
         }
 
         @Override
@@ -242,7 +242,6 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
                     mListener.onItemClick(position);
                 }
             }
-
         }
 
         @Override
@@ -279,4 +278,3 @@ public class UserRecipesAdapter extends RecyclerView.Adapter<UserRecipesAdapter.
         mListener = listener;
     }
 }
-

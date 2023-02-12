@@ -15,6 +15,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+//This code uses Retrofit to make GET requests to an API and retrieve recipe information
+
 public class RequestManagerApi{
 
     Context context;

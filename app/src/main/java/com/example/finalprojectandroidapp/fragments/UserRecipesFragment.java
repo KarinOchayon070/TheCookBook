@@ -28,7 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-// This code is an Android fragment that implements a RecyclerView to display a list of user uploaded recipes.
+// This code implements a RecyclerView to display a list of user uploaded recipes.
 // The recipes are stored in Firebase's Realtime Database and Firebase Storage.
 // The fragment has a "Upload Recipe" button that navigates the user to another fragment to upload a new recipe.
 // The data is retrieved from Firebase and displayed in the RecyclerView through an adapter.
@@ -65,6 +65,7 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
         Bundle bundle = new Bundle();
         bundle.putString("IDUser", IDUser);
 
+        //Setting up a RecyclerView
         mRecyclerView = view.findViewById(R.id.recycler_view_user_images);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -80,15 +81,23 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
             }
         });
 
+        //Setting up the adapter
         mAdapter = new UserRecipesAdapter(view.getContext(), mUploads, bundle);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
 
-        mStorage = FirebaseStorage.getInstance();
+        mStorage = FirebaseStorage.getInstance();  //For the images of the recipes
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Recipes Images");
 
+        //Attaching a ValueEventListener to a Firebase Realtime Database reference (mDatabaseRef)
         mDBListener =  mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
+            //The onDataChange method is triggered whenever data in the database changes and retrieves the data as a DataSnapshot.
+            //The code clears the existing data in mUploads, a list to store instances of the UploadRecipe class.
+            //The code iterates over the children of the DataSnapshot, converts each child to an instance of UploadRecipe, sets its key,
+            //and adds it to the list of mUploads.
+            //The code calls notifyDataSetChanged on the adapter to update the UI with the new data.
+            //The code dismisses the progress dialog after the data is loaded or if there was an error, it displays an error message using Toast
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUploads.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -100,6 +109,8 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
                 progressDialog.dismiss();
             }
             @Override
+            //The onCancelled method is triggered when an error occurs while listening for changes to the data and handles the error by
+            //displaying a message using Toast.
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(view.getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
@@ -108,6 +119,7 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
         return view;
     }
 
+    //I need to delete it later - just a check for me
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getView().getContext(), "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
@@ -139,15 +151,10 @@ public class UserRecipesFragment extends Fragment implements UserRecipesAdapter.
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //If the current user is an admin/the user who upload the recipe - let him delete
-                if (dataSnapshot.hasChild("isAdmin") || dataSnapshot.hasChild(selectedKey)) {
+                if (dataSnapshot.hasChild("isAdmin")) {
                     imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            //If the user who upload the recipe do the delete action
-                            if(dataSnapshot.hasChild(selectedKey)){
-                                mDatabaseRef.child(selectedKey).removeValue();
-                                userRef.child(selectedKey).removeValue();
-                            }
                             if(dataSnapshot.hasChild("isAdmin")){
                                 recipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
