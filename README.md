@@ -13,8 +13,3 @@ Hey there and welcome to my application "The Cook Book" :)
 Hope you'll enjoy!
 ![image](https://user-images.githubusercontent.com/92684210/218311249-733aa6e0-4a91-4466-b2b5-b4f33305b282.png)
 ![image](https://user-images.githubusercontent.com/92684210/218311253-5aa9414d-93b9-41ad-9fae-a124b51837de.png)
-![image](https://user-images.githubusercontent.com/92684210/218311262-f885329c-50de-4aca-8276-a1a0333a767b.png)
-![image](https://user-images.githubusercontent.com/92684210/218311337-e2e65d24-5bfc-4392-bc9a-cc31705c7718.png)
-![image](https://user-images.githubusercontent.com/92684210/218311370-1bc505fd-34f4-4aad-b646-52a33a927001.png)
-![image](https://user-images.githubusercontent.com/92684210/218311410-6c76b7fb-8578-4248-b2be-60cd34ae7abe.png)
-![image](https://user-images.githubusercontent.com/92684210/218311447-46f02548-a703-4587-84cb-3358a10a95e1.png)
